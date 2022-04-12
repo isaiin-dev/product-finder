@@ -15,6 +15,7 @@
 		D42F3DD22805E4DD00B9137F /* ApiManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42F3DD12805E4DD00B9137F /* ApiManagerDelegate.swift */; };
 		D42F3DD42805E50800B9137F /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42F3DD32805E50800B9137F /* ApiManager.swift */; };
 		D42F3DD62805E54400B9137F /* URLSession+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42F3DD52805E54400B9137F /* URLSession+Extensions.swift */; };
+		D42F3DD92805F43F00B9137F /* TabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42F3DD82805F43F00B9137F /* TabController.swift */; };
 		D4949B2A28051CCE00023B32 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4949B2928051CCE00023B32 /* AppDelegate.swift */; };
 		D4949B3428051CCE00023B32 /* product_finder.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D4949B3228051CCE00023B32 /* product_finder.xcdatamodeld */; };
 		D4949B3628051CCF00023B32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4949B3528051CCF00023B32 /* Assets.xcassets */; };
@@ -50,6 +51,7 @@
 		D42F3DD12805E4DD00B9137F /* ApiManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManagerDelegate.swift; sourceTree = "<group>"; };
 		D42F3DD32805E50800B9137F /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
 		D42F3DD52805E54400B9137F /* URLSession+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extensions.swift"; sourceTree = "<group>"; };
+		D42F3DD82805F43F00B9137F /* TabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabController.swift; sourceTree = "<group>"; };
 		D4949B2628051CCE00023B32 /* product-finder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "product-finder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4949B2928051CCE00023B32 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4949B3328051CCE00023B32 /* product_finder.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = product_finder.xcdatamodel; sourceTree = "<group>"; };
@@ -104,6 +106,14 @@
 				D42F3DD52805E54400B9137F /* URLSession+Extensions.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		D42F3DD72805F41F00B9137F /* Navigation */ = {
+			isa = PBXGroup;
+			children = (
+				D42F3DD82805F43F00B9137F /* TabController.swift */,
+			);
+			path = Navigation;
 			sourceTree = "<group>";
 		};
 		D4949B1D28051CCE00023B32 = {
@@ -185,6 +195,7 @@
 		D4949B5F28051EEC00023B32 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				D42F3DD72805F41F00B9137F /* Navigation */,
 			);
 			path = Scenes;
 			sourceTree = "<group>";
@@ -351,6 +362,7 @@
 				D42F3DCD2805E29900B9137F /* UIImage+Extensions.swift in Sources */,
 				D42F3DD42805E50800B9137F /* ApiManager.swift in Sources */,
 				D42F3DC92805E27600B9137F /* UIViewController+Extensions.swift in Sources */,
+				D42F3DD92805F43F00B9137F /* TabController.swift in Sources */,
 				D42F3DC62805E1EE00B9137F /* VIPERConfig.swift in Sources */,
 				D42F3DD22805E4DD00B9137F /* ApiManagerDelegate.swift in Sources */,
 				D42F3DCB2805E28400B9137F /* UIView+Extensions.swift in Sources */,
@@ -454,7 +466,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -508,7 +520,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -528,6 +540,7 @@
 				DEVELOPMENT_TEAM = 2U7TUYBPB8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "product-finder/Application/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Product Finder";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
@@ -555,6 +568,7 @@
 				DEVELOPMENT_TEAM = 2U7TUYBPB8;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "product-finder/Application/Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = "Product Finder";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
