@@ -11,6 +11,10 @@
 		D42F3DC92805E27600B9137F /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42F3DC82805E27600B9137F /* UIViewController+Extensions.swift */; };
 		D42F3DCB2805E28400B9137F /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42F3DCA2805E28400B9137F /* UIView+Extensions.swift */; };
 		D42F3DCD2805E29900B9137F /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42F3DCC2805E29900B9137F /* UIImage+Extensions.swift */; };
+		D42F3DD02805E4B500B9137F /* ConfigStructures.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42F3DCF2805E4B500B9137F /* ConfigStructures.swift */; };
+		D42F3DD22805E4DD00B9137F /* ApiManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42F3DD12805E4DD00B9137F /* ApiManagerDelegate.swift */; };
+		D42F3DD42805E50800B9137F /* ApiManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42F3DD32805E50800B9137F /* ApiManager.swift */; };
+		D42F3DD62805E54400B9137F /* URLSession+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42F3DD52805E54400B9137F /* URLSession+Extensions.swift */; };
 		D4949B2A28051CCE00023B32 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4949B2928051CCE00023B32 /* AppDelegate.swift */; };
 		D4949B3428051CCE00023B32 /* product_finder.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D4949B3228051CCE00023B32 /* product_finder.xcdatamodeld */; };
 		D4949B3628051CCF00023B32 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D4949B3528051CCF00023B32 /* Assets.xcassets */; };
@@ -42,6 +46,10 @@
 		D42F3DC82805E27600B9137F /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		D42F3DCA2805E28400B9137F /* UIView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Extensions.swift"; sourceTree = "<group>"; };
 		D42F3DCC2805E29900B9137F /* UIImage+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Extensions.swift"; sourceTree = "<group>"; };
+		D42F3DCF2805E4B500B9137F /* ConfigStructures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfigStructures.swift; sourceTree = "<group>"; };
+		D42F3DD12805E4DD00B9137F /* ApiManagerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManagerDelegate.swift; sourceTree = "<group>"; };
+		D42F3DD32805E50800B9137F /* ApiManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiManager.swift; sourceTree = "<group>"; };
+		D42F3DD52805E54400B9137F /* URLSession+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URLSession+Extensions.swift"; sourceTree = "<group>"; };
 		D4949B2628051CCE00023B32 /* product-finder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "product-finder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4949B2928051CCE00023B32 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4949B3328051CCE00023B32 /* product_finder.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = product_finder.xcdatamodel; sourceTree = "<group>"; };
@@ -86,6 +94,14 @@
 				D42F3DC82805E27600B9137F /* UIViewController+Extensions.swift */,
 				D42F3DCA2805E28400B9137F /* UIView+Extensions.swift */,
 				D42F3DCC2805E29900B9137F /* UIImage+Extensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		D42F3DCE2805E47F00B9137F /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				D42F3DD52805E54400B9137F /* URLSession+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -184,6 +200,10 @@
 		D4949B6128051F0100023B32 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				D42F3DCE2805E47F00B9137F /* Extensions */,
+				D42F3DCF2805E4B500B9137F /* ConfigStructures.swift */,
+				D42F3DD12805E4DD00B9137F /* ApiManagerDelegate.swift */,
+				D42F3DD32805E50800B9137F /* ApiManager.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -327,10 +347,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D42F3DD62805E54400B9137F /* URLSession+Extensions.swift in Sources */,
 				D42F3DCD2805E29900B9137F /* UIImage+Extensions.swift in Sources */,
+				D42F3DD42805E50800B9137F /* ApiManager.swift in Sources */,
 				D42F3DC92805E27600B9137F /* UIViewController+Extensions.swift in Sources */,
 				D42F3DC62805E1EE00B9137F /* VIPERConfig.swift in Sources */,
+				D42F3DD22805E4DD00B9137F /* ApiManagerDelegate.swift in Sources */,
 				D42F3DCB2805E28400B9137F /* UIView+Extensions.swift in Sources */,
+				D42F3DD02805E4B500B9137F /* ConfigStructures.swift in Sources */,
 				D4949B2A28051CCE00023B32 /* AppDelegate.swift in Sources */,
 				D4949B3428051CCE00023B32 /* product_finder.xcdatamodeld in Sources */,
 			);
