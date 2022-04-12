@@ -14,15 +14,15 @@ class TabController: UITabBarController {
         view.backgroundColor = .systemBackground
         tabBar.barStyle = .black
         tabBar.isTranslucent = true
-        tabBar.tintColor = .white
+        tabBar.tintColor = .accentColor
         setupVCs()
-        selectedIndex = 1
+        selectedIndex = 0
     }
     
     func setupVCs() {
         viewControllers = [
             createNavController(
-                for: UIViewController(),
+                for: SimpleCollectionViewController(),
                 title: "Search",
                 image: UIImage(systemName: "magnifyingglass.circle")!),
             createNavController(
