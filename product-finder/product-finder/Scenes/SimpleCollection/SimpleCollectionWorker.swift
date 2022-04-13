@@ -15,8 +15,37 @@
 
 import Foundation
 
-class SimpleCollectionWorker {
-    func doSomeWork() -> Bool{
-        return true
+class SimpleCollectionWorker: APIManagerDelegate {
+    func searchSuggestedKeywords(
+        request: SimpleCollection.SearchKeywords.Request,
+        completion: @escaping(Result<SimpleCollection.SearchKeywords.Response, RequestError>) -> Void) {
+        let endpoint = Endpoint(
+            url: APIConfig.CONFIG.SERVER.RAPIDAPPI.BASE_URL,
+            space: APIConfig.SPACE.RAPIDAPI.KEYWORD_SEARCH,
+            service: APIConfig.ENDPOINT.RAPIDAPI.SUGGESTED_KEYWORDS,
+            method: .GET)
+        let config = RequestConfig(body: request, headers: [
+            "X-RapidAPI-Host": APIConfig.AUTH.KEYWORDS_API.RapidAPIHost,
+            "X-RapidAPI-Key": APIConfig.AUTH.KEYWORDS_API.RapidAPIKey
+        ])
+        
+        fetch(from: endpoint, config: config, completion: completion)
+    }
+    
+    func searchProducts(
+        request: SimpleCollection.SearchProducts.Request,
+        completion: @escaping(Result<SimpleCollection.SearchProducts.Response, RequestError>) -> Void) {
+            let endpoint = Endpoint(
+                url: APIConfig.CONFIG.SERVER.MELI.BASE_URL,
+                space: APIConfig.SPACE.MELI.PRODUCTS,
+                service: APIConfig.ENDPOINT.MELI.PRODUCTS.SEARCH,
+                method: .GET)
+            let config = RequestConfig(
+                body: request,
+                headers: [
+                    "Authorization": APIConfig.AUTH.MELI.BearerToken
+                ])
+            
+            fetch(from: endpoint, config: config, completion: completion)
     }
 }

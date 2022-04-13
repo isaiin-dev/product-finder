@@ -16,13 +16,13 @@
 import Foundation
 
 protocol SimpleCollectionBusinessLogic {
-    func requestSomething(request: SimpleCollection.SomeUseCase.Request)
+    func searchProducts(request: SimpleCollection.SearchProducts.Request)
 }
 
 // MARK: - Back comunication to Presenter
 protocol SimpleCollectionBusinessLogicDelegate: InteractorToPresenter {
-    func presentSuccess(response: SimpleCollection.SomeUseCase.Response)
-    func presentFailure()
+    func present(products: SimpleCollection.SearchProducts.Response)
+    func present(failure message: String)
 }
 
 class SimpleCollectionInteractor: Interactor, SimpleCollectionBusinessLogic {
@@ -35,14 +35,18 @@ class SimpleCollectionInteractor: Interactor, SimpleCollectionBusinessLogic {
     let worker = SimpleCollectionWorker()
 
     // MARK: - BussinesLogic Implementation
-
-    func requestSomething(request: SimpleCollection.SomeUseCase.Request) {
-        let response = worker.doSomeWork()
-
-        if response {
-            self.presenter.presentSuccess(response: SimpleCollection.SomeUseCase.Response())
-        } else {
-            self.presenter.presentFailure()
+    
+    func searchProducts(request: SimpleCollection.SearchProducts.Request) {
+        worker.searchProducts(request: request) { result in
+            switch result {
+            case .success(let response):
+                guard !response.results.isEmpty else {
+                    return
+                }
+                self.presenter.present(products: response)
+            case .failure(let error):
+                self.presenter.present(failure: error.localizedDescription)
+            }
         }
     }
 }

@@ -17,7 +17,7 @@
 import Foundation
 
 protocol SimpleCollectionPresentationLogic {
-    func doSomething(request: SimpleCollection.SomeUseCase.Request)
+    func searchProducts(query: String)
 }
 
 class SimpleCollectionPresenter: Presenter, SimpleCollectionPresentationLogic {
@@ -37,18 +37,21 @@ class SimpleCollectionPresenter: Presenter, SimpleCollectionPresentationLogic {
 
     // MARK: - PresentationLogic implementation
 
-    func doSomething(request: SimpleCollection.SomeUseCase.Request) {
-        // Call to interactor
-        self.interactor.requestSomething(request: SimpleCollection.SomeUseCase.Request())
-    }    
+    func searchProducts(query: String) {
+        let request = SimpleCollection.SearchProducts.Request(
+            status: "active",
+            siteId: "MLM",
+            query: query)
+        interactor.searchProducts(request: request)
+    }
 }
 
 extension SimpleCollectionPresenter: SimpleCollectionBusinessLogicDelegate {
-    func presentSuccess(response: SimpleCollection.SomeUseCase.Response) {
-        self.view.displaySomething(viewModel: SimpleCollection.SomeUseCase.ViewModel())
+    func present(products: SimpleCollection.SearchProducts.Response) {
+        view.display(products: products.results)
     }
-
-    func presentFailure() {
-        self.router.routeToSomewhere()
+    
+    func present(failure message: String) {
+        view.display(error: message)
     }
 }

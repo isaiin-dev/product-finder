@@ -15,8 +15,13 @@
 
 import UIKit
 
+enum SimpleCollectionViewStyle {
+    case Search, Favorites, CategoryDetail
+}
+
 protocol SimpleCollectionDisplayLogic: View {
-	func displaySomething(viewModel: SimpleCollection.SomeUseCase.ViewModel)
+    func display(products: [SimpleCollection.SearchProducts.Product])
+    func display(error: String)
 }
 
 class SimpleCollectionViewController: UIViewController {
@@ -25,6 +30,50 @@ class SimpleCollectionViewController: UIViewController {
 	lazy var presenter: SimpleCollectionPresentationLogic = {
 		return self._presenter as! SimpleCollectionPresentationLogic
 	}()
+    
+    var style: SimpleCollectionViewStyle = .Search
+    var products = [SimpleCollection.SearchProducts.Product]() {
+        didSet {
+            DispatchQueue.main.async {
+                self.toggleState()
+                self.table.reloadData()
+            }
+        }
+    }
+    
+    // MARK: - SubViews
+    
+    private lazy var searchController: UISearchController = {
+        let searchResultsController = SearchKeyWordsResultViewController()
+        searchResultsController.delegate = self
+        var controller = UISearchController(searchResultsController: searchResultsController)
+        controller.searchBar.tintColor = UIColor.white
+        controller.searchResultsUpdater = self
+        controller.searchBar.delegate = self
+        return controller
+    }()
+    
+    private lazy var table: UITableView = {
+        var table = UITableView()
+        table.translatesAutoresizingMaskIntoConstraints = false
+        table.showsVerticalScrollIndicator = false
+        table.backgroundColor = .clear
+        table.register(ItemResultCell.self, forCellReuseIdentifier: "ITEM_RESULT_CELL")
+        table.delegate = self
+        table.dataSource = self
+        table.separatorStyle = .none
+        return table
+    }()
+    
+    private var emptyStateImage: UIImageView = {
+        let image = UIImageView(image: UIImage(systemName: "tray.fill"))
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.contentMode = .scaleAspectFit
+        image.alpha = 0.4
+        image.image = image.image?.withRenderingMode(.alwaysTemplate)
+        image.tintColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        return image
+    }()
 
 	// MARK: - Object Lifecycle
 
@@ -44,6 +93,10 @@ class SimpleCollectionViewController: UIViewController {
 		super.viewDidLoad()
 		self.setupView()
 	}
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+    }
 
 	// MARK: - Setup
 
@@ -57,17 +110,104 @@ class SimpleCollectionViewController: UIViewController {
 
 	private func setupView() {
         view.backgroundColor = .white
+        if style == .Search {
+            navigationItem.searchController = searchController
+        }
+        view.addSubview(emptyStateImage)
+        view.addSubview(table)
+        setupConstraints()
+        toggleState()
 	}
 
 	private func setupConstraints() {
 		NSLayoutConstraint.activate([
-            // TODO: - Add your views constraints here
+            emptyStateImage.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.5),
+            emptyStateImage.heightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor, multiplier: 0.5),
+            emptyStateImage.centerXAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerXAnchor),
+            emptyStateImage.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor),
+            table.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            table.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            table.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            table.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
         ])
 	}
+    
+    private func toggleState() {
+        if products.isEmpty {
+            emptyStateImage.isHidden = false
+            table.isHidden = true
+        } else {
+            emptyStateImage.isHidden = true
+            table.isHidden = false
+        }
+    }
 
 	// MARK: - Actions 
 }
 
 extension SimpleCollectionViewController: SimpleCollectionDisplayLogic {
-	func displaySomething(viewModel: SimpleCollection.SomeUseCase.ViewModel) {}
+    func display(products: [SimpleCollection.SearchProducts.Product]) {
+        self.products = products
+    }
+    
+    func display(error: String) {
+        print(error)
+    }
+}
+
+// MARK: - TableView delegate & dataSource
+
+extension SimpleCollectionViewController: UITableViewDelegate, UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        products.count
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "ITEM_RESULT_CELL", for: indexPath) as! ItemResultCell
+        
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        80
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        //let movie = self.movies[indexPath.row]
+        //self.presenter.goToDetailOf(movie: movie)
+    }
+}
+
+// MARK: - SearchBar delegate
+
+extension SimpleCollectionViewController: UISearchBarDelegate {
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let textToSearch = searchBar.text else { return }
+        searchController.isActive = false
+        presenter.searchProducts(query: textToSearch)
+    }
+}
+
+// MARK: - SearchKerWordsResultViewControllerDelegate
+
+extension SimpleCollectionViewController: SearchKeyWordsResultViewControllerDelegate {
+    func didSelect(keyword: String) {
+        searchController.isActive = false
+        presenter.searchProducts(query: keyword)
+    }
+}
+
+// MARK: - SerachResultUpdater
+
+extension SimpleCollectionViewController: UISearchResultsUpdating {
+    func updateSearchResults(for searchController: UISearchController) {
+        guard
+            let searchText = searchController.searchBar.text,
+            let controller = searchController.searchResultsController as? SearchKeyWordsResultViewController
+        else {
+            return
+        }
+        
+        controller.query = searchText
+    }
 }

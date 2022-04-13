@@ -23,7 +23,7 @@ class TabController: UITabBarController {
         viewControllers = [
             createNavController(
                 for: SimpleCollectionViewController(),
-                title: "Search",
+                title: "Product search",
                 image: UIImage(systemName: "magnifyingglass.circle")!),
             createNavController(
                 for: UIViewController(),
@@ -38,10 +38,16 @@ class TabController: UITabBarController {
     
     fileprivate func createNavController(for rootViewController: UIViewController, title: String, image: UIImage) -> UIViewController {
         let navController = UINavigationController(rootViewController: rootViewController)
-        //navController.tabBarItem.title = title
+        navController.tabBarItem.title = title
         navController.tabBarItem.image = image
         navController.navigationBar.prefersLargeTitles = true
+        navController.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.accentColor]
         navController.navigationBar.tintColor = .white
+        let appearance = UINavigationBarAppearance()
+        appearance.configureWithOpaqueBackground()
+        appearance.backgroundColor = .accentColor
+        navController.navigationBar.standardAppearance = appearance
+        navController.navigationBar.scrollEdgeAppearance = navController.navigationBar.standardAppearance
         rootViewController.navigationItem.title = title
         return navController
     }

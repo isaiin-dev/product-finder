@@ -17,11 +17,78 @@ import Foundation
 enum SimpleCollection {
 	// MARK: - Use cases
 
-	enum SomeUseCase {
-		struct Request: Codable {}
+	enum SearchProducts {
+		struct Request: Codable {
+            let status: String
+            let siteId: String
+            let query: String
+            
+            enum CodingKeys: String, CodingKey {
+                case status
+                case siteId = "site_id"
+                case query = "q"
+            }
+        }
 
-		struct Response: Codable {}
-
-		struct ViewModel: Codable {}
+		struct Response: Codable {
+            let keywords: String
+            let paging: Paging
+            let results: [Product]
+        }
+        
+        struct Paging: Codable {
+            let total, limit, offset: Int
+        }
+        
+        struct Product: Codable {
+            let id: String
+            let status: String
+            let domainId: String
+            let name: String
+            let attributes: [Attribute]
+            let pictures: [Picture]
+            
+            enum CodingKeys: String, CodingKey {
+                case id
+                case status
+                case domainId = "domain_id"
+                case name
+                case attributes
+                case pictures
+            }
+        }
+        
+        struct Attribute: Codable {
+            let id: String
+            let name: String
+            let valueId: String
+            let valueName: String
+            
+            enum CodingKeys: String, CodingKey {
+                case id
+                case name
+                case valueId = "value_id"
+                case valueName = "value_name"
+            }
+        }
+        
+        struct Picture: Codable {
+            let id, url: String
+        }
 	}
+    
+    enum SearchKeywords {
+        struct Request: Codable {
+            let search: String
+            let country: String
+        }
+
+        struct Response: Codable {
+            let suggestedKeywords: [String]
+            
+            enum CodingKeys: String, CodingKey {
+                case suggestedKeywords = "googleGuggestedKeywords"
+            }
+        }
+    }
 }
