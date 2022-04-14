@@ -40,6 +40,7 @@
 		D4D1887828076E2D000DD310 /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D1887728076E2D000DD310 /* UIImageView+Extensions.swift */; };
 		D4D1887A28077871000DD310 /* UITableViewCell+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D1887928077871000DD310 /* UITableViewCell+Extensions.swift */; };
 		D4D1887C2807DDF1000DD310 /* Float+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D1887B2807DDF1000DD310 /* Float+Extensions.swift */; };
+		D4D1887F2808AC39000DD310 /* BottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D1887E2808AC39000DD310 /* BottomSheet.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -103,6 +104,7 @@
 		D4D1887728076E2D000DD310 /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
 		D4D1887928077871000DD310 /* UITableViewCell+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extensions.swift"; sourceTree = "<group>"; };
 		D4D1887B2807DDF1000DD310 /* Float+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+Extensions.swift"; sourceTree = "<group>"; };
+		D4D1887E2808AC39000DD310 /* BottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheet.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -272,6 +274,7 @@
 		D4949B5C28051EC800023B32 /* UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				D4D1887D2808AB7E000DD310 /* Components */,
 				D42F3DEB28060AEB00B9137F /* Extensions */,
 				D42F3DF0280617D300B9137F /* UI.swift */,
 			);
@@ -332,6 +335,14 @@
 				D42F3DC52805E1EE00B9137F /* VIPERConfig.swift */,
 			);
 			path = Configuration;
+			sourceTree = "<group>";
+		};
+		D4D1887D2808AB7E000DD310 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				D4D1887E2808AC39000DD310 /* BottomSheet.swift */,
+			);
+			path = Components;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -596,6 +607,7 @@
 				D4D1887828076E2D000DD310 /* UIImageView+Extensions.swift in Sources */,
 				D4949B2A28051CCE00023B32 /* AppDelegate.swift in Sources */,
 				D4949B3428051CCE00023B32 /* product_finder.xcdatamodeld in Sources */,
+				D4D1887F2808AC39000DD310 /* BottomSheet.swift in Sources */,
 				D42F3DF328064B9F00B9137F /* APIConfig.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

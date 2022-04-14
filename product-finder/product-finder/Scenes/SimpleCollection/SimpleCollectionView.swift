@@ -45,6 +45,7 @@ class SimpleCollectionViewController: UIViewController {
                     self.navigationItem.rightBarButtonItem?.isEnabled = true
                     self.navigationController?.navigationBar.topItem?.title = "Results for: " + self.searchQuery
                 }
+                self.showInfoAlert(data: BottomSheet.InfoData(title: "El titulo", content: "Esto es todo el contenido de la alerta que se repite por que este es todo el contenido de la alerta", image: nil))
             }
         }
     }

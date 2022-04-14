@@ -41,6 +41,7 @@ struct UI {
         static let bigTitle     = UIFont.systemFont(ofSize: 24, weight: .bold)
         static let regularTitle = UIFont.systemFont(ofSize: 16, weight: .bold)
         static let smallTitle   = UIFont.systemFont(ofSize: 13, weight: .bold)
-        static let subTitle     = UIFont.systemFont(ofSize: 10, weight: .light)
+        static let paragraph    = UIFont.systemFont(ofSize: 16, weight: .regular)
+        static let subTitle     = UIFont.systemFont(ofSize: 10, weight: .regular)
     }
 }

@@ -17,4 +17,14 @@ extension UIViewController {
         gradientLayer.shouldRasterize = true
         view.layer.addSublayer(gradientLayer)
     }
+    
+    func showInfoAlert(data: BottomSheet.InfoData) {
+        self.tabBarController?.bottomSheet = BottomSheet(target: self, style: .info(data: data))
+        self.tabBarController?.bottomSheet?.show()
+    }
+    
+    func showActionAlert(data: BottomSheet.ActionData) {
+        self.tabBarController?.bottomSheet = BottomSheet(target: self, style: .action(data: data))
+        self.tabBarController?.bottomSheet?.show()
+    }
 }

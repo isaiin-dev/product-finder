@@ -8,7 +8,6 @@
 import UIKit
 
 class TabController: UITabBarController {
-
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
@@ -18,6 +17,7 @@ class TabController: UITabBarController {
         tabBar.tintColor = .accentColor
         setupVCs()
         selectedIndex = 0
+        hideBottomSheetWhenTappedAround()
     }
     
     func setupVCs() {
@@ -53,5 +53,32 @@ class TabController: UITabBarController {
         navController.navigationBar.scrollEdgeAppearance = navController.navigationBar.standardAppearance
         rootViewController.navigationItem.title = title
         return navController
+    }
+}
+
+extension UITabBarController {
+    private static var _bottomSheetComputedProperty = [String:BottomSheet]()
+        
+    var bottomSheet: BottomSheet? {
+        get {
+            let tmpAddress = String(format: "%p", unsafeBitCast(self, to: Int.self))
+            return UITabBarController._bottomSheetComputedProperty[tmpAddress]
+        }
+        set(newValue) {
+            let tmpAddress = String(format: "%p", unsafeBitCast(self, to: Int.self))
+            UITabBarController._bottomSheetComputedProperty[tmpAddress] = newValue
+        }
+    }
+}
+
+extension UITabBarController {
+    func hideBottomSheetWhenTappedAround() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(UITabBarController.dismissBottomSheet))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissBottomSheet() {
+        self.bottomSheet?.hide()
     }
 }
