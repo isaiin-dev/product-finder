@@ -39,8 +39,10 @@ class SimpleCollectionViewController: UIViewController {
                 self.toggleState()
                 self.table.reloadData()
                 if self.products.isEmpty {
-                    self.navigationController?.navigationBar.topItem?.title = self.title
+                    self.navigationItem.rightBarButtonItem?.isEnabled = false
+                    self.navigationController?.navigationBar.topItem?.title = "Product search"
                 } else {
+                    self.navigationItem.rightBarButtonItem?.isEnabled = true
                     self.navigationController?.navigationBar.topItem?.title = "Results for: " + self.searchQuery
                 }
             }
@@ -123,6 +125,10 @@ class SimpleCollectionViewController: UIViewController {
         view.addSubview(emptyStateImage)
         setupConstraints()
         toggleState()
+        
+        let clear = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(clear))
+        navigationItem.rightBarButtonItem = clear
+        navigationItem.rightBarButtonItem?.isEnabled = false
 	}
 
 	private func setupConstraints() {
@@ -148,7 +154,11 @@ class SimpleCollectionViewController: UIViewController {
         }
     }
 
-	// MARK: - Actions 
+	// MARK: - Actions
+    
+    @objc func clear() {
+        self.products = [SimpleCollection.SearchProducts.Product]()
+    }
 }
 
 extension SimpleCollectionViewController: SimpleCollectionDisplayLogic {
