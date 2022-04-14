@@ -37,7 +37,7 @@ class SimpleCollectionWorker: APIManagerDelegate {
         completion: @escaping(Result<SimpleCollection.SearchProducts.Response, RequestError>) -> Void) {
             let endpoint = Endpoint(
                 url: APIConfig.CONFIG.SERVER.MELI.BASE_URL,
-                space: APIConfig.SPACE.MELI.PRODUCTS,
+                space: APIConfig.SPACE.MELI.SITES.MEXICO,
                 service: APIConfig.ENDPOINT.MELI.PRODUCTS.SEARCH,
                 method: .GET)
             let config = RequestConfig(

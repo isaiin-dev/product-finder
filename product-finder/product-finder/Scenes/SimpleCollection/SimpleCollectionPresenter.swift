@@ -39,8 +39,6 @@ class SimpleCollectionPresenter: Presenter, SimpleCollectionPresentationLogic {
 
     func searchProducts(query: String) {
         let request = SimpleCollection.SearchProducts.Request(
-            status: "active",
-            siteId: "MLM",
             query: query)
         interactor.searchProducts(request: request)
     }

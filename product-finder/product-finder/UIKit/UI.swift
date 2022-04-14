@@ -30,12 +30,17 @@ struct UI {
                 static let title:       CGSize = CGSize(width: 0, height: 30)
                 static let subTitle:    CGSize = CGSize(width: 0, height: 35)
             }
+            
+            struct Cells {
+                static let SearchResultCell: CGSize = CGSize(width: 0, height: 160)
+            }
         }
     }
     
     struct Font {
-        static let bigTitle     = UIFont.systemFont(ofSize: 18, weight: .bold)
+        static let bigTitle     = UIFont.systemFont(ofSize: 24, weight: .bold)
         static let regularTitle = UIFont.systemFont(ofSize: 16, weight: .bold)
+        static let smallTitle   = UIFont.systemFont(ofSize: 13, weight: .bold)
         static let subTitle     = UIFont.systemFont(ofSize: 10, weight: .light)
     }
 }

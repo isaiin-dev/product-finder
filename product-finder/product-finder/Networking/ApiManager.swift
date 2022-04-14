@@ -48,6 +48,8 @@ class APIManager {
                     let httpResponse = response as? HTTPURLResponse,
                     (200...299).contains(httpResponse.statusCode)
                 else {
+                    let str = String(decoding: data, as: UTF8.self)
+                    print("Data for error: \(str)")
                     completion(.failure(self.getError(response: response, data: data)))
                     return
                 }
@@ -58,7 +60,7 @@ class APIManager {
                     json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
                     print(json)
                 } catch let error {
-                    print("Decoding ERROR - \(error.localizedDescription)")
+                    print("Decoding ERROR - \(error)")
                 }
                 
                 var decodingErrorMessage = ""
@@ -77,6 +79,7 @@ class APIManager {
                     decodingErrorMessage = "Type \(type) mismatch: \(context.debugDescription) | codingPath: \(context.codingPath)"
                 } catch {
                     decodingErrorMessage = error.localizedDescription
+                    print(error)
                 }
                 
                 print(decodingErrorMessage)

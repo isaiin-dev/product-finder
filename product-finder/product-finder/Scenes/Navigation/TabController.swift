@@ -11,9 +11,10 @@ class TabController: UITabBarController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = .white
         tabBar.barStyle = .black
         tabBar.isTranslucent = true
+        tabBar.barTintColor = .white
         tabBar.tintColor = .accentColor
         setupVCs()
         selectedIndex = 0
@@ -27,8 +28,8 @@ class TabController: UITabBarController {
                 image: UIImage(systemName: "magnifyingglass.circle")!),
             createNavController(
                 for: UIViewController(),
-                title: "Home",
-                image: UIImage(systemName: "house.circle")!),
+                title: "Last search",
+                image: UIImage(systemName: "clock.arrow.circlepath")!),
             createNavController(
                 for: UIViewController(),
                 title: "Favorites",
@@ -47,6 +48,8 @@ class TabController: UITabBarController {
         appearance.configureWithOpaqueBackground()
         appearance.backgroundColor = .accentColor
         navController.navigationBar.standardAppearance = appearance
+        navController.navigationBar.barStyle = .black
+        navController.navigationBar.isTranslucent = true
         navController.navigationBar.scrollEdgeAppearance = navController.navigationBar.standardAppearance
         rootViewController.navigationItem.title = title
         return navController

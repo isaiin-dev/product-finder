@@ -38,6 +38,9 @@ struct APIConfig {
         
         struct MELI {
             static let PRODUCTS = "/products/"
+            struct SITES {
+                static let MEXICO = "/sites/MLM/"
+            }
         }
     }
     

@@ -32,11 +32,17 @@ class SimpleCollectionViewController: UIViewController {
 	}()
     
     var style: SimpleCollectionViewStyle = .Search
+    var searchQuery = ""
     var products = [SimpleCollection.SearchProducts.Product]() {
         didSet {
             DispatchQueue.main.async {
                 self.toggleState()
                 self.table.reloadData()
+                if self.products.isEmpty {
+                    self.navigationController?.navigationBar.topItem?.title = self.title
+                } else {
+                    self.navigationController?.navigationBar.topItem?.title = "Results for: " + self.searchQuery
+                }
             }
         }
     }
@@ -61,7 +67,7 @@ class SimpleCollectionViewController: UIViewController {
         table.register(ItemResultCell.self, forCellReuseIdentifier: "ITEM_RESULT_CELL")
         table.delegate = self
         table.dataSource = self
-        table.separatorStyle = .none
+        table.separatorStyle = .singleLine
         return table
     }()
     
@@ -113,8 +119,8 @@ class SimpleCollectionViewController: UIViewController {
         if style == .Search {
             navigationItem.searchController = searchController
         }
-        view.addSubview(emptyStateImage)
         view.addSubview(table)
+        view.addSubview(emptyStateImage)
         setupConstraints()
         toggleState()
 	}
@@ -164,12 +170,13 @@ extension SimpleCollectionViewController: UITableViewDelegate, UITableViewDataSo
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ITEM_RESULT_CELL", for: indexPath) as! ItemResultCell
-        
+        cell.product = self.products[indexPath.row]
+        cell.setSelectedBackground(color: .lightText)
         return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        80
+        UI.Layout.Sizing.Cells.SearchResultCell.height
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -185,6 +192,7 @@ extension SimpleCollectionViewController: UISearchBarDelegate {
         guard let textToSearch = searchBar.text else { return }
         searchController.isActive = false
         presenter.searchProducts(query: textToSearch)
+        searchQuery = textToSearch
     }
 }
 
@@ -194,6 +202,7 @@ extension SimpleCollectionViewController: SearchKeyWordsResultViewControllerDele
     func didSelect(keyword: String) {
         searchController.isActive = false
         presenter.searchProducts(query: keyword)
+        searchQuery = keyword
     }
 }
 

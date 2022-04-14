@@ -38,6 +38,8 @@
 		D4949B4E28051CCF00023B32 /* product_finderUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4949B4D28051CCF00023B32 /* product_finderUITests.swift */; };
 		D4949B5028051CCF00023B32 /* product_finderUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4949B4F28051CCF00023B32 /* product_finderUITestsLaunchTests.swift */; };
 		D4D1887828076E2D000DD310 /* UIImageView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D1887728076E2D000DD310 /* UIImageView+Extensions.swift */; };
+		D4D1887A28077871000DD310 /* UITableViewCell+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D1887928077871000DD310 /* UITableViewCell+Extensions.swift */; };
+		D4D1887C2807DDF1000DD310 /* Float+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4D1887B2807DDF1000DD310 /* Float+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +101,8 @@
 		D4949B4D28051CCF00023B32 /* product_finderUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = product_finderUITests.swift; sourceTree = "<group>"; };
 		D4949B4F28051CCF00023B32 /* product_finderUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = product_finderUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		D4D1887728076E2D000DD310 /* UIImageView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Extensions.swift"; sourceTree = "<group>"; };
+		D4D1887928077871000DD310 /* UITableViewCell+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITableViewCell+Extensions.swift"; sourceTree = "<group>"; };
+		D4D1887B2807DDF1000DD310 /* Float+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Float+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +162,8 @@
 				D42F3DC82805E27600B9137F /* UIViewController+Extensions.swift */,
 				D42F3DCA2805E28400B9137F /* UIView+Extensions.swift */,
 				D42F3DCC2805E29900B9137F /* UIImage+Extensions.swift */,
+				D4D1887928077871000DD310 /* UITableViewCell+Extensions.swift */,
+				D4D1887B2807DDF1000DD310 /* Float+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -566,6 +572,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D4D1887C2807DDF1000DD310 /* Float+Extensions.swift in Sources */,
 				D42F3DD62805E54400B9137F /* URLSession+Extensions.swift in Sources */,
 				D42F3DCD2805E29900B9137F /* UIImage+Extensions.swift in Sources */,
 				D42F3DD42805E50800B9137F /* ApiManager.swift in Sources */,
@@ -580,6 +587,7 @@
 				D42F3DC62805E1EE00B9137F /* VIPERConfig.swift in Sources */,
 				D42F3DD22805E4DD00B9137F /* ApiManagerDelegate.swift in Sources */,
 				D42F3DEF280613C500B9137F /* ItemResultCell.swift in Sources */,
+				D4D1887A28077871000DD310 /* UITableViewCell+Extensions.swift in Sources */,
 				D42F3DF1280617D300B9137F /* UI.swift in Sources */,
 				D42F3DCB2805E28400B9137F /* UIView+Extensions.swift in Sources */,
 				D42F3DE52805F6E400B9137F /* SimpleCollectionInteractor.swift in Sources */,

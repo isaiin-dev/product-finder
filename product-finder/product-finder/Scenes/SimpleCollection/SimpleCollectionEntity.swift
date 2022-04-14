@@ -12,57 +12,197 @@
 //  you can apply clean architecture to your iOS projects.
 //
 
-import Foundation
+import UIKit
 
 enum SimpleCollection {
 	// MARK: - Use cases
 
 	enum SearchProducts {
 		struct Request: Codable {
-            let status: String
-            let siteId: String
             let query: String
             
             enum CodingKeys: String, CodingKey {
-                case status
-                case siteId = "site_id"
                 case query = "q"
             }
         }
 
 		struct Response: Codable {
-            let keywords: String
+            let siteId: String
+            let query: String
             let paging: Paging
             let results: [Product]
+            
+            enum CodingKeys: String, CodingKey {
+                case siteId = "site_id"
+                case query
+                case paging
+                case results
+            }
         }
         
         struct Paging: Codable {
-            let total, limit, offset: Int
+            let total: Int
+            let limit: Int
+            let offset: Int
+            let primaryResults: Int
+            
+            enum CodingKeys: String, CodingKey {
+                case total
+                case limit
+                case offset
+                case primaryResults = "primary_results"
+            }
         }
         
         struct Product: Codable {
             let id: String
-            let status: String
-            let domainId: String
-            let name: String
+            let siteId: String
+            let title: String
+            let seller: Seller
+            let price: Float
+            let currencyId: String
+            let availableQuantity: Int
+            let soldQuantity: Int
+            let buyingMode: String
+            let listingTypeId: String
+            let stopTime: String
+            let condition: String
+            let permalink: String
+            let thumbnail: String
+            let acceptsMercadopago: Bool
+            let installments: Installments?
+            let address: Address
+            let shipping: Shipping
+            let sellerAddress: SellerAddress
             let attributes: [Attribute]
-            let pictures: [Picture]
+            let originalPrice: Float?
+            let categoryId: String
+            let officialStoreId: Int?
+            let catalogProductId: String?
+            let tags: [String]
+            let catalogListing: Bool?
             
             enum CodingKeys: String, CodingKey {
                 case id
-                case status
-                case domainId = "domain_id"
-                case name
+                case siteId = "site_id"
+                case title
+                case seller
+                case price
+                case currencyId = "currency_id"
+                case availableQuantity = "available_quantity"
+                case soldQuantity = "sold_quantity"
+                case buyingMode = "buying_mode"
+                case listingTypeId = "listing_type_id"
+                case stopTime = "stop_time"
+                case condition
+                case permalink
+                case thumbnail
+                case acceptsMercadopago = "accepts_mercadopago"
+                case installments
+                case address
+                case shipping
+                case sellerAddress = "seller_address"
                 case attributes
-                case pictures
+                case originalPrice = "original_price"
+                case categoryId = "category_id"
+                case officialStoreId = "official_store_id"
+                case catalogProductId = "catalog_product_id"
+                case tags
+                case catalogListing = "catalog_listing"
             }
+        }
+        
+        struct Seller: Codable {
+            let id: Int
+            let powerSellerStatus: String?
+            let carDealer: Bool?
+            let realStateAgency: Bool?
+            
+            enum CodingKeys: String, CodingKey {
+                case id
+                case powerSellerStatus = "power_seller_status"
+                case carDealer = "car_dealer"
+                case realStateAgency = "real_estate_agency"
+            }
+        }
+        
+        struct Installments: Codable {
+            let quantity: Int
+            let amount: Float
+            let rate: Float
+            let currencyId: String
+            
+            func getAttributtedDescription() -> NSAttributedString {
+                var attrstr = AttributedString("en \(quantity)x \(amount.asCurrency()) sin intereses")
+                if let range = attrstr.range(of: "en") {
+                    attrstr[range].foregroundColor = .lightGray
+                }
+                
+                if let range = attrstr.range(of: "\(quantity)x \(amount.asCurrency()) sin intereses") {
+                    attrstr[range].foregroundColor = .lightGreen
+                }
+                
+                return NSAttributedString(attrstr)
+            }
+            
+            func getDescription() -> String {
+                return "en \(quantity)x \(amount.asCurrency())"
+            }
+            
+            enum CodingKeys: String, CodingKey {
+                case quantity
+                case amount
+                case rate
+                case currencyId = "currency_id"
+            }
+        }
+        
+        struct Address: Codable {
+            let stateId: String
+            let stateName: String
+            let cityId: String
+            let cityName: String
+            
+            enum CodingKeys: String, CodingKey {
+                case stateId = "state_id"
+                case stateName = "state_name"
+                case cityId = "city_id"
+                case cityName = "city_name"
+            }
+        }
+        
+        struct AddressItem: Codable {
+            let id: String
+            let name: String
+        }
+        
+        struct Shipping: Codable {
+            let freeShipping: Bool
+            let mode: String
+            let logisticType: String
+            let storePickUp: Bool
+            
+            enum CodingKeys: String, CodingKey {
+                case freeShipping = "free_shipping"
+                case mode
+                case logisticType = "logistic_type"
+                case storePickUp = "store_pick_up"
+            }
+        }
+        
+        struct SellerAddress: Codable {
+            let country: AddressItem
+            let state: AddressItem
+            let city: AddressItem
+            let latitude: String
+            let longitude: String
         }
         
         struct Attribute: Codable {
             let id: String
             let name: String
-            let valueId: String
-            let valueName: String
+            let valueId: String?
+            let valueName: String?
             
             enum CodingKeys: String, CodingKey {
                 case id
