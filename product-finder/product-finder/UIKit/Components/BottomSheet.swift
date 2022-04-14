@@ -238,7 +238,7 @@ extension BottomSheet {
                     if finished {
                         sView.removeFromSuperview()
                         self.isOpen = false
-                        self.target?.tabBarController?.tabBar.isHidden = true
+                        self.target?.tabBarController?.tabBar.isHidden = false
                     }
                 }
             })
