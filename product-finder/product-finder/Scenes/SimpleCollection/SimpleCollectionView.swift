@@ -199,10 +199,18 @@ extension SimpleCollectionViewController: UITableViewDelegate, UITableViewDataSo
         //let movie = self.movies[indexPath.row]
         //self.presenter.goToDetailOf(movie: movie)
     }
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let action = UIContextualAction(style: .normal, title: "Favorite") { action, view, completionHandler in
+            print("ToFavorites")
+            completionHandler(true)
+        }
+        action.backgroundColor = .kobi
+        return UISwipeActionsConfiguration(actions: [action])
+    }
 }
 
-// MARK: - SearchBar delegate
-
+// MARK: - SearchBar delegate♥
 extension SimpleCollectionViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let textToSearch = searchBar.text else { return }
