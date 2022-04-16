@@ -43,9 +43,10 @@ class SimpleCollectionViewController: UIViewController {
                     self.navigationController?.navigationBar.topItem?.title = "Product search"
                 } else {
                     self.navigationItem.rightBarButtonItem?.isEnabled = true
-                    self.navigationController?.navigationBar.topItem?.title = "Results for: " + self.searchQuery
+                    self.navigationController?.navigationBar.topItem?.title = self.searchQuery
                 }
-                self.showInfoAlert(data: BottomSheet.InfoData(title: "El titulo", content: "Esto es todo el contenido de la alerta que se repite por que este es todo el contenido de la alerta", image: nil))
+                
+                self.showActionAlert(data: BottomSheet.ActionData(title: "El titulo", content: "Esto es todo el contenido de la alerta que se repite por que este es todo el contenido de la alerta", image: nil), delegate: self)
             }
         }
     }
@@ -57,6 +58,9 @@ class SimpleCollectionViewController: UIViewController {
         searchResultsController.delegate = self
         var controller = UISearchController(searchResultsController: searchResultsController)
         controller.searchBar.tintColor = UIColor.white
+        controller.searchBar.searchTextField.backgroundColor = .kobi
+        let attributedPlaceHolder = NSAttributedString(string: "Search your favorite products", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white])
+        controller.searchBar.searchTextField.attributedPlaceholder = attributedPlaceHolder
         controller.searchResultsUpdater = self
         controller.searchBar.delegate = self
         return controller
@@ -105,6 +109,7 @@ class SimpleCollectionViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        self.showInfoAlert(data: BottomSheet.InfoData(title: "El titulo", content: "Esto es todo el contenido de la alerta que se repite por que este es todo el contenido de la alerta", image: nil), delegate: self)
     }
 
 	// MARK: - Setup
@@ -229,5 +234,21 @@ extension SimpleCollectionViewController: UISearchResultsUpdating {
         }
         
         controller.query = searchText
+    }
+}
+
+// MARK: - BottomSheetDelegate
+
+extension SimpleCollectionViewController: BottomSeheetDelegate {
+    func didTap(action: BottomSheetAction, bottomSheet: BottomSheet) {
+        switch action {
+        case .leading:
+            bottomSheet.hide()
+        case .trailing:
+            print("OK Action")
+            bottomSheet.hide()
+        case .simpleOk:
+            bottomSheet.hide()
+        }
     }
 }

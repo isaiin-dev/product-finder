@@ -14,10 +14,9 @@ class TabController: UITabBarController {
         tabBar.barStyle = .black
         tabBar.isTranslucent = true
         tabBar.barTintColor = .white
-        tabBar.tintColor = .accentColor
+        tabBar.tintColor = .purpureus
         setupVCs()
         selectedIndex = 0
-        hideBottomSheetWhenTappedAround()
     }
     
     func setupVCs() {
@@ -42,11 +41,11 @@ class TabController: UITabBarController {
         navController.tabBarItem.title = title
         navController.tabBarItem.image = image
         navController.navigationBar.prefersLargeTitles = true
-        navController.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.accentColor]
+        navController.navigationBar.largeTitleTextAttributes = [NSAttributedString.Key.foregroundColor: UIColor.purpureus]
         navController.navigationBar.tintColor = .white
         let appearance = UINavigationBarAppearance()
         appearance.configureWithOpaqueBackground()
-        appearance.backgroundColor = .accentColor
+        appearance.backgroundColor = .purpureus
         navController.navigationBar.standardAppearance = appearance
         navController.navigationBar.barStyle = .black
         navController.navigationBar.isTranslucent = true
@@ -68,17 +67,5 @@ extension UITabBarController {
             let tmpAddress = String(format: "%p", unsafeBitCast(self, to: Int.self))
             UITabBarController._bottomSheetComputedProperty[tmpAddress] = newValue
         }
-    }
-}
-
-extension UITabBarController {
-    func hideBottomSheetWhenTappedAround() {
-        let tap = UITapGestureRecognizer(target: self, action: #selector(UITabBarController.dismissBottomSheet))
-        tap.cancelsTouchesInView = false
-        view.addGestureRecognizer(tap)
-    }
-    
-    @objc func dismissBottomSheet() {
-        self.bottomSheet?.hide()
     }
 }

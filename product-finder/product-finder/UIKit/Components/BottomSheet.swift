@@ -12,12 +12,22 @@ enum BottomSheetStyle {
     case action(data: BottomSheet.ActionData)
 }
 
+enum BottomSheetAction {
+    case leading, trailing, simpleOk
+}
+
+protocol BottomSeheetDelegate {
+    func didTap(action: BottomSheetAction, bottomSheet: BottomSheet)
+}
+
 class BottomSheet: UIView {
     // MARK: - Properties
     
     var style: BottomSheetStyle?
     var target: UIViewController?
     var isOpen: Bool = false
+    var blurEffectView: UIVisualEffectView?
+    var delegate: BottomSeheetDelegate?
     
     let TAG = "BottomSheet".hashValue
     
@@ -49,10 +59,52 @@ class BottomSheet: UIView {
     }()
     
     lazy var bigButton: UIView = {
-        let view = UIView()
-        view.backgroundColor = .white
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
+        var configuration = UIButton.Configuration.tinted()
+        configuration.title = "OK"
+        configuration.cornerStyle = .large
+        configuration.baseForegroundColor = .white
+        configuration.baseBackgroundColor = .spaceCadet
+        let button = UIButton(configuration: configuration)
+        button.addAction(UIAction { _ in
+            self.delegate?.didTap(action: .simpleOk, bottomSheet: self)
+        }, for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    lazy var twinsButtons: UIStackView = {
+        var stack = UIStackView()
+        stack.axis = .horizontal
+        stack.spacing = UI.Layout.Spacing.Padding.Medium
+        stack.distribution = .fillEqually
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        
+        var leadingConfiguration = UIButton.Configuration.tinted()
+        leadingConfiguration.title = "Cancel"
+        leadingConfiguration.cornerStyle = .large
+        leadingConfiguration.baseForegroundColor = .white
+        leadingConfiguration.baseBackgroundColor = .kobi
+        let leadingButton = UIButton(configuration: leadingConfiguration)
+        leadingButton.addAction(UIAction { _ in
+            self.delegate?.didTap(action: .leading, bottomSheet: self)
+        }, for: .touchUpInside)
+        leadingButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        var trailingConfiguration = UIButton.Configuration.tinted()
+        trailingConfiguration.title = "Okay"
+        trailingConfiguration.cornerStyle = .large
+        trailingConfiguration.baseForegroundColor = .white
+        trailingConfiguration.baseBackgroundColor = .spaceCadet
+        let trailingButton = UIButton(configuration: trailingConfiguration)
+        trailingButton.addAction(UIAction { _ in
+            self.delegate?.didTap(action: .trailing, bottomSheet: self)
+        }, for: .touchUpInside)
+        trailingButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        stack.addArrangedSubview(leadingButton)
+        stack.addArrangedSubview(trailingButton)
+        
+        return stack
     }()
     
     // MARK: - Lifecycle
@@ -73,7 +125,7 @@ class BottomSheet: UIView {
                 x: .zero,
                 y: parentFrame.height,
                 width: parentFrame.width,
-                height: parentFrame.height * 0.35)
+                height: parentFrame.height * 0.25)
         }
         
         super.init(frame: frame)
@@ -90,7 +142,7 @@ class BottomSheet: UIView {
     // MARK: - Setup view
     
     private func setupView() {
-        backgroundColor = .accentColor
+        backgroundColor = .purpureus
         
         guard let style = style else { return }
         
@@ -112,14 +164,27 @@ class BottomSheet: UIView {
             }
             
             addSubview(bigButton)
-        case .action(_):
-            print("TODO")
+        case .action(let data):
+            if let dataTitle = data.title {
+                addSubview(title)
+                title.text = dataTitle
+            }
+            
+            if let dataContent = data.content {
+                addSubview(content)
+                content.text = dataContent
+            }
+            
+            if let dataImage = data.image {
+                addSubview(image)
+                image.image = dataImage
+            }
+            
+            addSubview(twinsButtons)
         }
-        
-        let gestureRecognizer = UIGestureRecognizer(target: self, action: #selector(touchOutside))
-        addGestureRecognizer(gestureRecognizer)
-        
+
         setupContraints()
+        addVisualEffect()
     }
     
     private func setupContraints() {
@@ -175,11 +240,48 @@ class BottomSheet: UIView {
                     bigButton.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2)
                 ]
             }
-        case .action(_):
-            print("TODO")
+        case .action(let data):
+            if data.title != nil {
+                constraints += titleConstraints
+            }
+            
+            if data.content != nil {
+                constraints += contentConstraints
+                
+                constraints += [
+                    twinsButtons.topAnchor.constraint(equalTo: content.bottomAnchor, constant: UI.Layout.Spacing.Padding.Full),
+                    twinsButtons.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
+                    twinsButtons.trailingAnchor.constraint(equalTo: trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+                    twinsButtons.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2)
+                ]
+            }
+            
+            if data.image != nil {
+                constraints += imageConstraints
+                
+                constraints += [
+                    twinsButtons.topAnchor.constraint(equalTo: image.bottomAnchor, constant: UI.Layout.Spacing.Padding.Full),
+                    twinsButtons.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
+                    twinsButtons.trailingAnchor.constraint(equalTo: trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+                    twinsButtons.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2)
+                ]
+            }
         }
         
         NSLayoutConstraint.activate(constraints)
+    }
+    
+    private func addVisualEffect() {
+        if let parent = self.target {
+            let blurEffect = UIBlurEffect(style: .systemUltraThinMaterialDark)
+            blurEffectView = UIVisualEffectView(effect: blurEffect)
+            blurEffectView?.frame = parent.view.bounds
+            blurEffectView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+            blurEffectView?.tag = "BLUREFFECT".hashValue
+            
+            let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(didTapBlur(_:)))
+            blurEffectView?.addGestureRecognizer(tapGestureRecognizer)
+        }
     }
     
     // MARK: - Actions
@@ -194,7 +296,7 @@ class BottomSheet: UIView {
         hideAnimation()
     }
     
-    @objc func touchOutside() {
+    @objc func didTapBlur(_ sender: UITapGestureRecognizer) {
         hide()
     }
     
@@ -216,10 +318,16 @@ class BottomSheet: UIView {
 extension BottomSheet {
     func showAnimation() {
         self.target?.tabBarController?.tabBar.isHidden = true
+        self.target?.navigationController?.setNavigationBarHidden(true, animated: true)
         DispatchQueue.main.async {
+            if let blur = self.blurEffectView {
+                blur.alpha = 0
+                self.target?.view.addSubview(blur)
+            }
             self.target?.view.addSubview(self)
             UIView.animate(withDuration: 0.25, delay: .zero, options: .curveEaseOut) {
                 self.frame.origin.y = (self.target?.view.frame.height)! - self.frame.height
+                self.blurEffectView?.alpha = 0.7
             } completion: { finished in
                 if finished {
                     self.isOpen = true
@@ -234,11 +342,16 @@ extension BottomSheet {
                 guard sView.tag == self.TAG else { return }
                 UIView.animate(withDuration: 0.25, delay: .zero, options: .curveEaseOut) {
                     self.frame.origin.y = (self.target?.view.frame.height)!
+                    if let blur = self.blurEffectView {
+                        blur.alpha = 0
+                        blur.removeFromSuperview()
+                    }
                 } completion: { finished in
                     if finished {
                         sView.removeFromSuperview()
                         self.isOpen = false
                         self.target?.tabBarController?.tabBar.isHidden = false
+                        self.target?.navigationController?.setNavigationBarHidden(false, animated: true)
                     }
                 }
             })
