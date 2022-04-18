@@ -12,7 +12,7 @@ import UIKit
 class FavoritesCoreDataManager {
     public static let shared = FavoritesCoreDataManager()
     
-    func save(favorite product: SimpleCollection.SearchProducts.Product) {
+    func save(favorite product: SimpleCollection.SearchProducts.Product) -> Bool{
         let appDelegate = UIApplication.shared.delegate as! AppDelegate
         let managedContext = appDelegate.persistentContainer.viewContext
         
@@ -27,8 +27,10 @@ class FavoritesCoreDataManager {
         
         do {
             try managedContext.save()
+            return true
         } catch let error as NSError {
             print("Error saving product: \(error.localizedDescription)")
+            return false
         }
     }
     
@@ -55,6 +57,30 @@ class FavoritesCoreDataManager {
         }
         
         return favorites
+    }
+    
+    func deleteFavorite(by id: String) -> Bool {
+        let appDelegate = UIApplication.shared.delegate as! AppDelegate
+        let managedContext = appDelegate.persistentContainer.viewContext
+        var deleted: Bool = false
+        let request = Favorite.fetchRequest()
+        
+        do {
+            let fetchedProducts = try managedContext.fetch(request)
+            
+            fetchedProducts.forEach { savedProduct in
+                if id == savedProduct.id {
+                    managedContext.delete(savedProduct)
+                    deleted = true
+                }
+            }
+            
+            try managedContext.save()
+        } catch let error as NSError {
+            print("Error deleting all products: \(error.localizedDescription)")
+        }
+        
+        return deleted
     }
     
     func deleteAllData() {

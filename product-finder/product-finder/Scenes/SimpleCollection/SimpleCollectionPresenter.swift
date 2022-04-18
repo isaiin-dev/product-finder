@@ -18,6 +18,9 @@ import Foundation
 
 protocol SimpleCollectionPresentationLogic {
     func searchProducts(query: String)
+    func save(favorite product: SimpleCollection.SearchProducts.Product)
+    func deleteFavorite(by id: String)
+    func fetchFavorites()
 }
 
 class SimpleCollectionPresenter: Presenter, SimpleCollectionPresentationLogic {
@@ -42,11 +45,35 @@ class SimpleCollectionPresenter: Presenter, SimpleCollectionPresentationLogic {
             query: query)
         interactor.searchProducts(request: request)
     }
+    
+    func save(favorite product: SimpleCollection.SearchProducts.Product) {
+        interactor.save(favorite: product)
+    }
+    
+    func fetchFavorites() {
+        interactor.getFavorites()
+    }
+    
+    func deleteFavorite(by id: String) {
+        interactor.deleteFavorite(by: id)
+    }
 }
 
 extension SimpleCollectionPresenter: SimpleCollectionBusinessLogicDelegate {
     func present(products: SimpleCollection.SearchProducts.Response) {
         view.display(products: products.results)
+    }
+    
+    func present(favoriteSaved: Bool) {
+        view.display(favoriteSaved: favoriteSaved)
+    }
+    
+    func present(favorites: [SimpleCollection.SearchProducts.Product]) {
+        view.display(favorites: favorites)
+    }
+    
+    func present(favoriteDeletionResult: Bool) {
+        view.display(favoriteDeleted: favoriteDeletionResult)
     }
     
     func present(failure message: String) {

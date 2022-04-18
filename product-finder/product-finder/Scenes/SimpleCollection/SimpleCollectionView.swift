@@ -16,11 +16,14 @@
 import UIKit
 
 enum SimpleCollectionViewStyle {
-    case Search, Favorites, CategoryDetail
+    case Search, Favorites, LastResults
 }
 
 protocol SimpleCollectionDisplayLogic: View {
     func display(products: [SimpleCollection.SearchProducts.Product])
+    func display(favoriteSaved: Bool)
+    func display(favorites: [SimpleCollection.SearchProducts.Product])
+    func display(favoriteDeleted: Bool)
     func display(error: String)
 }
 
@@ -42,11 +45,11 @@ class SimpleCollectionViewController: UIViewController {
                     self.navigationItem.rightBarButtonItem?.isEnabled = false
                     self.navigationController?.navigationBar.topItem?.title = "Product search"
                 } else {
-                    self.navigationItem.rightBarButtonItem?.isEnabled = true
-                    self.navigationController?.navigationBar.topItem?.title = self.searchQuery
+                    if self.style == .Search {
+                        self.navigationItem.rightBarButtonItem?.isEnabled = true
+                        self.navigationController?.navigationBar.topItem?.title = self.searchQuery
+                    }
                 }
-                
-                self.showActionAlert(data: BottomSheet.ActionData(title: "El titulo", content: "Esto es todo el contenido de la alerta que se repite por que este es todo el contenido de la alerta", image: nil), delegate: self)
             }
         }
     }
@@ -109,7 +112,12 @@ class SimpleCollectionViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        self.showInfoAlert(data: BottomSheet.InfoData(title: "El titulo", content: "Esto es todo el contenido de la alerta que se repite por que este es todo el contenido de la alerta", image: nil), delegate: self)
+        
+        switch style {
+        case .Favorites:
+            self.presenter.fetchFavorites()
+        default: break
+        }
     }
 
 	// MARK: - Setup
@@ -126,15 +134,14 @@ class SimpleCollectionViewController: UIViewController {
         view.backgroundColor = .white
         if style == .Search {
             navigationItem.searchController = searchController
+            let clear = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(clear))
+            navigationItem.rightBarButtonItem = clear
+            navigationItem.rightBarButtonItem?.isEnabled = false
         }
         view.addSubview(table)
         view.addSubview(emptyStateImage)
         setupConstraints()
         toggleState()
-        
-        let clear = UIBarButtonItem(barButtonSystemItem: .trash, target: self, action: #selector(clear))
-        navigationItem.rightBarButtonItem = clear
-        navigationItem.rightBarButtonItem?.isEnabled = false
 	}
 
 	private func setupConstraints() {
@@ -172,6 +179,27 @@ extension SimpleCollectionViewController: SimpleCollectionDisplayLogic {
         self.products = products
     }
     
+    func display(favorites: [SimpleCollection.SearchProducts.Product]) {
+        self.products = favorites
+    }
+    
+    func display(favoriteSaved: Bool) {
+        if favoriteSaved {
+            showInfoAlert(data: BottomSheet.InfoData(title: "Yay!", content: "Your product has been saved to favorites!", image: nil), delegate: self)
+        } else {
+            showInfoAlert(data: BottomSheet.InfoData(title: "Ooops!", content: "Your product can't been saved to favorites!", image: nil), delegate: self)
+        }
+    }
+    
+    func display(favoriteDeleted: Bool) {
+        if favoriteDeleted {
+            showInfoAlert(data: BottomSheet.InfoData(title: "Okay", content: "Your product has been deleted from favorites!", image: nil), delegate: self)
+            self.presenter.fetchFavorites()
+        } else {
+            showInfoAlert(data: BottomSheet.InfoData(title: "Ooops!", content: "Your product can't been deleted from favorites!", image: nil), delegate: self)
+        }
+    }
+    
     func display(error: String) {
         print(error)
     }
@@ -201,12 +229,29 @@ extension SimpleCollectionViewController: UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let action = UIContextualAction(style: .normal, title: "Favorite") { action, view, completionHandler in
-            print("ToFavorites")
-            completionHandler(true)
+        if self.style != .Favorites {
+            let action = UIContextualAction(style: .normal, title: "Favorite") { action, view, completionHandler in
+                self.presenter.save(favorite: self.products[indexPath.row])
+                completionHandler(true)
+            }
+            action.backgroundColor = .kobi
+            return UISwipeActionsConfiguration(actions: [action])
+        } else {
+            return nil
         }
-        action.backgroundColor = .kobi
-        return UISwipeActionsConfiguration(actions: [action])
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if self.style == .Favorites {
+            let action = UIContextualAction(style: .destructive, title: "Delete") { action, view, completionHandler in
+                self.presenter.deleteFavorite(by: self.products[indexPath.row].id)
+                completionHandler(true)
+            }
+            action.backgroundColor = .systemRed
+            return UISwipeActionsConfiguration(actions: [action])
+        } else {
+            return nil
+        }
     }
 }
 
@@ -253,7 +298,6 @@ extension SimpleCollectionViewController: BottomSeheetDelegate {
         case .leading:
             bottomSheet.hide()
         case .trailing:
-            print("OK Action")
             bottomSheet.hide()
         case .simpleOk:
             bottomSheet.hide()

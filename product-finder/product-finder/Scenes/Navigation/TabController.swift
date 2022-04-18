@@ -20,6 +20,9 @@ class TabController: UITabBarController {
     }
     
     func setupVCs() {
+        let favoritesViewController = SimpleCollectionViewController()
+        favoritesViewController.style = .Favorites
+        
         viewControllers = [
             createNavController(
                 for: SimpleCollectionViewController(),
@@ -30,7 +33,7 @@ class TabController: UITabBarController {
                 title: "Last search",
                 image: UIImage(systemName: "clock.arrow.circlepath")!),
             createNavController(
-                for: UIViewController(),
+                for: favoritesViewController,
                 title: "Favorites",
                 image: UIImage(systemName: "heart.circle")!)
         ]

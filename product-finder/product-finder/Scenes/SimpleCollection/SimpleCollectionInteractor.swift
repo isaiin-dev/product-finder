@@ -17,11 +17,17 @@ import Foundation
 
 protocol SimpleCollectionBusinessLogic {
     func searchProducts(request: SimpleCollection.SearchProducts.Request)
+    func getFavorites()
+    func save(favorite product: SimpleCollection.SearchProducts.Product)
+    func deleteFavorite(by id: String)
 }
 
 // MARK: - Back comunication to Presenter
 protocol SimpleCollectionBusinessLogicDelegate: InteractorToPresenter {
     func present(products: SimpleCollection.SearchProducts.Response)
+    func present(favoriteSaved: Bool)
+    func present(favorites: [SimpleCollection.SearchProducts.Product])
+    func present(favoriteDeletionResult: Bool)
     func present(failure message: String)
 }
 
@@ -47,6 +53,24 @@ class SimpleCollectionInteractor: Interactor, SimpleCollectionBusinessLogic {
             case .failure(let error):
                 self.presenter.present(failure: error.localizedDescription)
             }
+        }
+    }
+    
+    func save(favorite product: SimpleCollection.SearchProducts.Product) {
+        worker.save(favorite: product) { saved in
+            self.presenter.present(favoriteSaved: saved)
+        }
+    }
+    
+    func getFavorites() {
+        worker.getFavorites { favorites in
+            self.presenter.present(favorites: favorites)
+        }
+    }
+    
+    func deleteFavorite(by id: String) {
+        worker.deleteFavorite(by: id) { deleted in
+            self.presenter.present(favoriteDeletionResult: deleted)
         }
     }
 }

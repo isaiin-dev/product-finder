@@ -48,4 +48,16 @@ class SimpleCollectionWorker: APIManagerDelegate {
             
             fetch(from: endpoint, config: config, completion: completion)
     }
+    
+    func save(favorite product: SimpleCollection.SearchProducts.Product, completion: @escaping(_ saved: Bool) -> Void) {
+        completion(FavoritesCoreDataManager.shared.save(favorite: product))
+    }
+    
+    func getFavorites(completion: @escaping(_ favorites: [SimpleCollection.SearchProducts.Product]) -> Void) {
+        completion(FavoritesCoreDataManager.shared.getFavorites())
+    }
+    
+    func deleteFavorite(by id: String, completion: @escaping(_ deleted: Bool) -> Void) {
+        completion(FavoritesCoreDataManager.shared.deleteFavorite(by: id))
+    }
 }
