@@ -81,6 +81,7 @@ enum SimpleCollection {
             let catalogProductId: String?
             let tags: [String]
             let catalogListing: Bool?
+            var isFavorite: Bool?
             
             enum CodingKeys: String, CodingKey {
                 case id
@@ -109,6 +110,7 @@ enum SimpleCollection {
                 case catalogProductId = "catalog_product_id"
                 case tags
                 case catalogListing = "catalog_listing"
+                case isFavorite
             }
         }
         

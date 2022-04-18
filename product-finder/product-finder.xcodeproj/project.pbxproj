@@ -37,6 +37,10 @@
 		D42F3DF1280617D300B9137F /* UI.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42F3DF0280617D300B9137F /* UI.swift */; };
 		D42F3DF328064B9F00B9137F /* APIConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42F3DF228064B9F00B9137F /* APIConfig.swift */; };
 		D42F3DF528065A8900B9137F /* SearchKeyWordsResultViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D42F3DF428065A8900B9137F /* SearchKeyWordsResultViewController.swift */; };
+		D430BDA0280DF0FA003199C9 /* UDManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D430BD9F280DF0FA003199C9 /* UDManager.swift */; };
+		D430BDA2280DF1F4003199C9 /* UDManager+KeysExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = D430BDA1280DF1F4003199C9 /* UDManager+KeysExtension.swift */; };
+		D430BDA4280E0DBE003199C9 /* ProductImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = D430BDA3280E0DBE003199C9 /* ProductImage.swift */; };
+		D430BDA6280E0E5B003199C9 /* ProductImageCoreDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D430BDA5280E0E5B003199C9 /* ProductImageCoreDataManager.swift */; };
 		D434AA59D1275D6E1B8682FC /* Pods_product_finder.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A449CD9A3CB12EE0A1637995 /* Pods_product_finder.framework */; };
 		D4949B2A28051CCE00023B32 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D4949B2928051CCE00023B32 /* AppDelegate.swift */; };
 		D4949B3428051CCE00023B32 /* product_finder.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = D4949B3228051CCE00023B32 /* product_finder.xcdatamodeld */; };
@@ -106,6 +110,10 @@
 		D42F3DF0280617D300B9137F /* UI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI.swift; sourceTree = "<group>"; };
 		D42F3DF228064B9F00B9137F /* APIConfig.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIConfig.swift; sourceTree = "<group>"; };
 		D42F3DF428065A8900B9137F /* SearchKeyWordsResultViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchKeyWordsResultViewController.swift; sourceTree = "<group>"; };
+		D430BD9F280DF0FA003199C9 /* UDManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UDManager.swift; sourceTree = "<group>"; };
+		D430BDA1280DF1F4003199C9 /* UDManager+KeysExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UDManager+KeysExtension.swift"; sourceTree = "<group>"; };
+		D430BDA3280E0DBE003199C9 /* ProductImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImage.swift; sourceTree = "<group>"; };
+		D430BDA5280E0E5B003199C9 /* ProductImageCoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductImageCoreDataManager.swift; sourceTree = "<group>"; };
 		D4949B2628051CCE00023B32 /* product-finder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "product-finder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D4949B2928051CCE00023B32 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D4949B3328051CCE00023B32 /* product_finder.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = product_finder.xcdatamodel; sourceTree = "<group>"; };
@@ -200,6 +208,8 @@
 		D4289CF8280B5B1A0084BDB6 /* UserDefaults */ = {
 			isa = PBXGroup;
 			children = (
+				D430BD9F280DF0FA003199C9 /* UDManager.swift */,
+				D430BDA1280DF1F4003199C9 /* UDManager+KeysExtension.swift */,
 			);
 			path = UserDefaults;
 			sourceTree = "<group>";
@@ -208,6 +218,7 @@
 			isa = PBXGroup;
 			children = (
 				D4289CFD280B5CE10084BDB6 /* FavoritesCoreDataManager.swift */,
+				D430BDA5280E0E5B003199C9 /* ProductImageCoreDataManager.swift */,
 			);
 			path = Management;
 			sourceTree = "<group>";
@@ -216,6 +227,7 @@
 			isa = PBXGroup;
 			children = (
 				D4289CFB280B5BF30084BDB6 /* Favorite.swift */,
+				D430BDA3280E0DBE003199C9 /* ProductImage.swift */,
 			);
 			path = Entity;
 			sourceTree = "<group>";
@@ -659,22 +671,26 @@
 				D42F3DE72805F6E400B9137F /* SimpleCollectionEntity.swift in Sources */,
 				D4289CFC280B5BF30084BDB6 /* Favorite.swift in Sources */,
 				D42F3DE32805F6E400B9137F /* SimpleCollectionWorker.swift in Sources */,
+				D430BDA6280E0E5B003199C9 /* ProductImageCoreDataManager.swift in Sources */,
 				D42F3DC92805E27600B9137F /* UIViewController+Extensions.swift in Sources */,
 				D42F3DE22805F6E400B9137F /* SimpleCollectionPresenter.swift in Sources */,
 				D42F3DE62805F6E400B9137F /* SimpleCollectionView.swift in Sources */,
 				D42F3DD92805F43F00B9137F /* TabController.swift in Sources */,
+				D430BDA2280DF1F4003199C9 /* UDManager+KeysExtension.swift in Sources */,
 				D42F3DC62805E1EE00B9137F /* VIPERConfig.swift in Sources */,
 				D42F3DD22805E4DD00B9137F /* ApiManagerDelegate.swift in Sources */,
 				D42F3DEF280613C500B9137F /* ItemResultCell.swift in Sources */,
 				D4D1887A28077871000DD310 /* UITableViewCell+Extensions.swift in Sources */,
 				D42F3DF1280617D300B9137F /* UI.swift in Sources */,
 				D42F3DCB2805E28400B9137F /* UIView+Extensions.swift in Sources */,
+				D430BDA4280E0DBE003199C9 /* ProductImage.swift in Sources */,
 				D42F3DE52805F6E400B9137F /* SimpleCollectionInteractor.swift in Sources */,
 				D42F3DE42805F6E400B9137F /* SimpleCollectionRouter.swift in Sources */,
 				21CA7993280B9AF600EECF6C /* ProductDetailWorker.swift in Sources */,
 				D42F3DD02805E4B500B9137F /* ConfigStructures.swift in Sources */,
 				D4D1887828076E2D000DD310 /* UIImageView+Extensions.swift in Sources */,
 				D4949B2A28051CCE00023B32 /* AppDelegate.swift in Sources */,
+				D430BDA0280DF0FA003199C9 /* UDManager.swift in Sources */,
 				D4949B3428051CCE00023B32 /* product_finder.xcdatamodeld in Sources */,
 				D4D1887F2808AC39000DD310 /* BottomSheet.swift in Sources */,
 				D42F3DF328064B9F00B9137F /* APIConfig.swift in Sources */,
@@ -848,6 +864,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2U7TUYBPB8;
@@ -856,6 +873,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Product Finder";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -865,9 +883,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "isaiin.dev.product-finder";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -877,6 +896,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2U7TUYBPB8;
@@ -885,6 +905,7 @@
 				INFOPLIST_KEY_CFBundleDisplayName = "Product Finder";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -894,9 +915,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "isaiin.dev.product-finder";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

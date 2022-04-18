@@ -61,8 +61,8 @@ class SimpleCollectionViewController: UIViewController {
         searchResultsController.delegate = self
         var controller = UISearchController(searchResultsController: searchResultsController)
         controller.searchBar.tintColor = UIColor.white
-        controller.searchBar.searchTextField.backgroundColor = .kobi
-        let attributedPlaceHolder = NSAttributedString(string: "Search your favorite products", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white])
+        controller.searchBar.searchTextField.backgroundColor = .kobi.withAlphaComponent(0.5)
+        let attributedPlaceHolder = NSAttributedString(string: "Search", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white])
         controller.searchBar.searchTextField.attributedPlaceholder = attributedPlaceHolder
         controller.searchResultsUpdater = self
         controller.searchBar.delegate = self
@@ -116,7 +116,20 @@ class SimpleCollectionViewController: UIViewController {
         switch style {
         case .Favorites:
             self.presenter.fetchFavorites()
-        default: break
+        case .Search:
+            if UDManager.shared.getValue(for: .firstLaunch, ofType: Bool.self) == nil {
+                self.showInfoAlert(
+                    data: BottomSheet.InfoData(
+                        title: "Welcome buddy!",
+                        content: "Remember that every time you make a search you can delete it by pressing 🗑 in the upper right",
+                        image: nil),
+                    delegate: self)
+                UDManager.shared.set(value: true, for: .firstLaunch)
+            }
+        case .LastResults:
+            if let lastSearchItems = UDManager.shared.getObjet(for: .lastSearchItems, ofType: [SimpleCollection.SearchProducts.Product].self) {
+                self.products = lastSearchItems
+            }
         }
     }
 
@@ -177,6 +190,7 @@ class SimpleCollectionViewController: UIViewController {
 extension SimpleCollectionViewController: SimpleCollectionDisplayLogic {
     func display(products: [SimpleCollection.SearchProducts.Product]) {
         self.products = products
+        _ = UDManager.shared.save(object: products, for: .lastSearchItems)
     }
     
     func display(favorites: [SimpleCollection.SearchProducts.Product]) {

@@ -4,7 +4,12 @@
         <attribute name="id" optional="YES" attributeType="String"/>
         <attribute name="product" optional="YES" attributeType="Binary"/>
     </entity>
+    <entity name="ProductImage" representedClassName=".ProductImage" syncable="YES">
+        <attribute name="imageData" optional="YES" attributeType="Binary"/>
+        <attribute name="productId" optional="YES" attributeType="String"/>
+    </entity>
     <elements>
         <element name="Favorite" positionX="-63" positionY="-18" width="128" height="59"/>
+        <element name="ProductImage" positionX="-63" positionY="0" width="128" height="59"/>
     </elements>
 </model>

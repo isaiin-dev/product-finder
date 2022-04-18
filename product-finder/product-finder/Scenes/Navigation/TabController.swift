@@ -23,13 +23,16 @@ class TabController: UITabBarController {
         let favoritesViewController = SimpleCollectionViewController()
         favoritesViewController.style = .Favorites
         
+        let lasSearchViewController = SimpleCollectionViewController()
+        lasSearchViewController.style = .LastResults
+        
         viewControllers = [
             createNavController(
                 for: SimpleCollectionViewController(),
                 title: "Product search",
                 image: UIImage(systemName: "magnifyingglass.circle")!),
             createNavController(
-                for: UIViewController(),
+                for: lasSearchViewController,
                 title: "Last search",
                 image: UIImage(systemName: "clock.arrow.circlepath")!),
             createNavController(
