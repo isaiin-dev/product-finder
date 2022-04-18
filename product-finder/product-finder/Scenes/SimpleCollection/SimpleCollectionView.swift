@@ -250,8 +250,20 @@ extension SimpleCollectionViewController: UITableViewDelegate, UITableViewDataSo
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
         if self.style != .Favorites {
             let action = UIContextualAction(style: .normal, title: "Favorite") { action, view, completionHandler in
-                self.presenter.save(favorite: self.products[indexPath.row])
-                completionHandler(true)
+                let product = self.products[indexPath.row]
+                
+                if product.isFavorite ?? false {
+                    self.showInfoAlert(
+                        data: BottomSheet.InfoData(
+                            title: "going fast?",
+                            content: "You have already added this product to your favorites list!",
+                            image: nil),
+                        delegate: self)
+                    completionHandler(true)
+                } else {
+                    self.presenter.save(favorite: self.products[indexPath.row])
+                    completionHandler(true)
+                }
             }
             action.backgroundColor = .kobi
             return UISwipeActionsConfiguration(actions: [action])

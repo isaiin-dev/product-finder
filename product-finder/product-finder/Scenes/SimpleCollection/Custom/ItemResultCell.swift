@@ -102,7 +102,9 @@ class ItemResultCell: UITableViewCell {
             installsOrTag.text = "TAG"
         }
         
-        shippingInfo.text = "\(product.shipping.freeShipping ? "Envio gratis ":"")\(product.shipping.logisticType == "fulfillment" ? "⚡️FULL":"")"
+        
+        
+        shippingInfo.text = "\(product.isFavorite ?? false ? "💜 - ":"")\(product.shipping.freeShipping ? "Envio gratis ":"")\(product.shipping.logisticType == "fulfillment" ? "⚡️FULL":"")"
        
         if
             let imageURL = URL(string: product.thumbnail) {
