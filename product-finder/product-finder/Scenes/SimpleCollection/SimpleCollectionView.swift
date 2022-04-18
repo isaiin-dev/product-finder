@@ -14,6 +14,7 @@
 //
 
 import UIKit
+import Lottie
 
 enum SimpleCollectionViewStyle {
     case Search, Favorites, LastResults
@@ -81,13 +82,10 @@ class SimpleCollectionViewController: UIViewController {
         return table
     }()
     
-    private var emptyStateImage: UIImageView = {
-        let image = UIImageView(image: UIImage(systemName: "tray.fill"))
+    private var emptyStateImage: AnimationView = {
+        let image = AnimationView(name: "empty-box")
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.contentMode = .scaleAspectFit
-        image.alpha = 0.4
-        image.image = image.image?.withRenderingMode(.alwaysTemplate)
-        image.tintColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        image.loopMode = .loop
         return image
     }()
 
@@ -131,6 +129,8 @@ class SimpleCollectionViewController: UIViewController {
                 self.products = lastSearchItems
             }
         }
+        
+        emptyStateImage.play()
     }
 
 	// MARK: - Setup
@@ -191,6 +191,11 @@ extension SimpleCollectionViewController: SimpleCollectionDisplayLogic {
     func display(products: [SimpleCollection.SearchProducts.Product]) {
         self.products = products
         _ = UDManager.shared.save(object: products, for: .lastSearchItems)
+        
+        DispatchQueue.main.async {
+            self.emptyStateImage.animation = Animation.named("empty-box")
+            self.emptyStateImage.play()
+        }
     }
     
     func display(favorites: [SimpleCollection.SearchProducts.Product]) {
@@ -276,6 +281,11 @@ extension SimpleCollectionViewController: UISearchBarDelegate {
         searchController.isActive = false
         presenter.searchProducts(query: textToSearch)
         searchQuery = textToSearch
+        
+        DispatchQueue.main.async {
+            self.emptyStateImage.animation = Animation.named("searching")
+            self.emptyStateImage.play()
+        }
     }
 }
 
@@ -286,6 +296,11 @@ extension SimpleCollectionViewController: SearchKeyWordsResultViewControllerDele
         searchController.isActive = false
         presenter.searchProducts(query: keyword)
         searchQuery = keyword
+        
+        DispatchQueue.main.async {
+            self.emptyStateImage.animation = Animation.named("searching")
+            self.emptyStateImage.play()
+        }
     }
 }
 

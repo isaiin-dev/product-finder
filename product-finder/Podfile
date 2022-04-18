@@ -7,6 +7,7 @@ target 'product-finder' do
 
   # Pods for product-finder
   pod 'ShimmerSwift'
+  pod 'lottie-ios'
 
   target 'product-finderTests' do
     inherit! :search_paths
