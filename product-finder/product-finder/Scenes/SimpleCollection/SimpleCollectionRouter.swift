@@ -15,15 +15,17 @@
 import UIKit
 
 protocol SimpleCollectionRoutingLogic {
-  func routeToSomewhere()
+    func routeToDetail(of product: SimpleCollection.SearchProducts.Product)
 }
 
 class SimpleCollectionRouter: Router, SimpleCollectionRoutingLogic {
-  lazy var view: SimpleCollectionViewController = {
+    lazy var view: SimpleCollectionViewController = {
       return self._view as! SimpleCollectionViewController
-  }()
-
-  func routeToSomewhere() {
-        
-  }
+    }()
+    
+    func routeToDetail(of product: SimpleCollection.SearchProducts.Product) {
+        let detailViewController = ProductDetailViewController()
+        detailViewController.product = product
+        self.view.navigationController?.pushViewController(detailViewController, animated: true)
+    }
 }

@@ -14,6 +14,7 @@
 //
 
 import UIKit
+import ShimmerSwift
 
 protocol ProductDetailDisplayLogic: View {
 	func displaySomething(viewModel: ProductDetail.SomeUseCase.ViewModel)
@@ -26,13 +27,153 @@ class ProductDetailViewController: UIViewController {
 		return self._presenter as! ProductDetailPresentationLogic
 	}()
     
-    // MARK: - Sbviews
+    var product: SimpleCollection.SearchProducts.Product?
     
-    lazy var iamge: UIImageView = {
-        let imageView = UIImageView()
-        imageView.contentMode = .scaleAspectFill
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
+    override var hidesBottomBarWhenPushed: Bool {
+        get {
+            return true
+        }
+        set {
+            super.hidesBottomBarWhenPushed = newValue
+        }
+    }
+    
+    // MARK: - Subviews
+    
+    private var titleLabel: UILabel = {
+        var label = UILabel()
+        label.textColor = .gray
+        label.font = UI.Font.regularTitle
+        label.numberOfLines = 0
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private var image: UIImageView = {
+        var image = UIImageView()
+        image.backgroundColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
+        image.layer.cornerRadius = 4
+        image.contentMode = .scaleAspectFit
+        image.clipsToBounds = true
+        image.translatesAutoresizingMaskIntoConstraints = false
+        return image
+    }()
+    
+    private lazy var shimmeringView: ShimmeringView = {
+        var shimmerView = ShimmeringView()
+        shimmerView.contentView = self.image
+        shimmerView.translatesAutoresizingMaskIntoConstraints = false
+        return shimmerView
+    }()
+    
+    private var price: UILabel = {
+        var label = UILabel()
+        label.textColor = .darkGray
+        label.font = UI.Font.superBigTitle
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private var installsOrTag: UILabel = {
+        var label = UILabel()
+        label.textColor = .lightGray
+        label.font = UI.Font.regularTitle
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private var shippingInfo: UILabel = {
+        var label = UILabel()
+        label.textColor = .lightGreen
+        label.font = UI.Font.regularTitle
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private var attributesLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .darkGray
+        label.font = UI.Font.superBigTitle
+        label.text = "Features"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private var attributesStack: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .vertical
+        stack.distribution = .fillEqually
+        stack.translatesAutoresizingMaskIntoConstraints = false
+        return stack
+    }()
+    
+    lazy var bigButton: UIView = {
+        var configuration = UIButton.Configuration.filled()
+        configuration.title = "Show in MercadoLible"
+        configuration.cornerStyle = .large
+        configuration.baseForegroundColor = .white
+        configuration.baseBackgroundColor = .kobi
+        let button = UIButton(configuration: configuration)
+        button.addAction(UIAction { _ in
+            guard let url = URL(string: self.product?.permalink ?? "") else { return }
+            UIApplication.shared.open(url)
+        }, for: .touchUpInside)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
+    
+    private var attributesStackCalculatedHeight: CGFloat = 0.0
+    private var contentViewCalculatedHeight: CGFloat = 0.0
+    
+    private lazy var contentView: UIView = {
+        let view = UIView()
+        if let product = product {
+            titleLabel.text = product.title
+            view.addSubview(titleLabel)
+            view.addSubview(shimmeringView)
+            if
+                let imageURL = URL(string: product.thumbnail) {
+                image.load(url: imageURL, id: "\(product.id)", shimmeringView: shimmeringView)
+            }
+            
+            price.text = product.price.asCurrency()
+            view.addSubview(price)
+            
+            if let installments = product.installments {
+                if installments.rate == 0{
+                    installsOrTag.attributedText = installments.getAttributtedDescription()
+                } else {
+                    installsOrTag.text = installments.getDescription()
+                }
+            } else {
+                installsOrTag.text = "TAG"
+            }
+            view.addSubview(installsOrTag)
+            
+            shippingInfo.text = "\(product.isFavorite ?? false ? "💜 - ":"")\(product.shipping.freeShipping ? "Envio gratis ":"")\(product.shipping.logisticType == "fulfillment" ? "⚡️FULL":"")"
+            view.addSubview(shippingInfo)
+            
+            view.addSubview(attributesLabel)
+            
+            attributesStackCalculatedHeight = CGFloat(product.attributes.count * 55)
+            contentViewCalculatedHeight = attributesStackCalculatedHeight + (self.view.bounds.size.height * 0.8)
+            
+            product.attributes.forEach { attribute in
+                attributesStack.addArrangedSubview(viewFor(attrubite: attribute))
+            }
+            
+            view.addSubview(attributesStack)
+            view.addSubview(bigButton)
+        }
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
+    
+    lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.addSubview(contentView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
     }()
 
 	// MARK: - Object Lifecycle
@@ -52,9 +193,12 @@ class ProductDetailViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 		self.setupView()
-		// Example call to presenter
-		self.presenter.doSomething(request: ProductDetail.SomeUseCase.Request())
 	}
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        self.navigationController?.navigationBar.prefersLargeTitles = true
+    }
 
 	// MARK: - Setup
 
@@ -67,12 +211,70 @@ class ProductDetailViewController: UIViewController {
 	}
 
 	private func setupView() {
-		// Setup all view components here
+        view.backgroundColor = .white
+        self.navigationController?.navigationBar.prefersLargeTitles = false
+        self.title = "Details"
+        view.addSubview(scrollView)
+        setupConstraints()
 	}
 
 	private func setupConstraints() {
+        let safeArea    = view.safeAreaLayoutGuide
+        let layoutGuide = contentView.safeAreaLayoutGuide
+        
 		NSLayoutConstraint.activate([
-            // TODO: - Add your views constraints here
+            // scrollView constraints
+            scrollView.leadingAnchor.constraint(equalTo: safeArea.leadingAnchor),
+            scrollView.topAnchor.constraint(equalTo: safeArea.topAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: safeArea.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: safeArea.bottomAnchor),
+            // contentView constraints
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
+            contentView.heightAnchor.constraint(equalToConstant: contentViewCalculatedHeight),
+            // titleLabel constraints
+            titleLabel.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
+            titleLabel.topAnchor.constraint(equalTo: layoutGuide.topAnchor, constant: UI.Layout.Spacing.Padding.Full),
+            titleLabel.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+            titleLabel.heightAnchor.constraint(equalToConstant: 60.0),
+            // shimmeringView constraints
+            shimmeringView.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
+            shimmeringView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: UI.Layout.Spacing.Padding.Full),
+            shimmeringView.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+            shimmeringView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.4),
+            // price constraints
+            price.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
+            price.topAnchor.constraint(equalTo: shimmeringView.bottomAnchor, constant: UI.Layout.Spacing.Padding.Full),
+            price.heightAnchor.constraint(equalToConstant: 60),
+            price.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+            // installsOrTag constraints
+            installsOrTag.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
+            installsOrTag.topAnchor.constraint(equalTo: price.bottomAnchor),
+            installsOrTag.heightAnchor.constraint(equalToConstant: 30),
+            installsOrTag.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+            // shippingInfo constraints
+            shippingInfo.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
+            shippingInfo.topAnchor.constraint(equalTo: installsOrTag.bottomAnchor),
+            shippingInfo.heightAnchor.constraint(equalToConstant: 30),
+            shippingInfo.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+            // attributesLabel constraints
+            attributesLabel.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
+            attributesLabel.topAnchor.constraint(equalTo: shippingInfo.bottomAnchor, constant: UI.Layout.Spacing.Padding.Full),
+            attributesLabel.heightAnchor.constraint(equalToConstant: 60),
+            attributesLabel.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+            // attributesStack constraints
+            attributesStack.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
+            attributesStack.topAnchor.constraint(equalTo: attributesLabel.bottomAnchor, constant: UI.Layout.Spacing.Padding.Full),
+            attributesStack.heightAnchor.constraint(equalToConstant: attributesStackCalculatedHeight),
+            attributesStack.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+            // bigButton constraints
+            bigButton.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
+            bigButton.topAnchor.constraint(equalTo: attributesStack.bottomAnchor, constant: UI.Layout.Spacing.Padding.Full * 1.5),
+            bigButton.heightAnchor.constraint(equalToConstant: 50),
+            bigButton.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull)
         ])
 	}
 
@@ -81,4 +283,15 @@ class ProductDetailViewController: UIViewController {
 
 extension ProductDetailViewController: ProductDetailDisplayLogic {
 	func displaySomething(viewModel: ProductDetail.SomeUseCase.ViewModel) {}
+}
+
+// MARK: - Helpers
+
+extension ProductDetailViewController {
+    func viewFor(attrubite: SimpleCollection.SearchProducts.Attribute) -> UIView {
+        let view = AttributeView()
+        view.attribute = attrubite
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }
 }

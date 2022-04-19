@@ -38,6 +38,7 @@ struct UI {
     }
     
     struct Font {
+        static let superBigTitle     = UIFont.systemFont(ofSize: 34, weight: .bold)
         static let bigTitle     = UIFont.systemFont(ofSize: 24, weight: .bold)
         static let regularTitle = UIFont.systemFont(ofSize: 16, weight: .bold)
         static let smallTitle   = UIFont.systemFont(ofSize: 13, weight: .bold)

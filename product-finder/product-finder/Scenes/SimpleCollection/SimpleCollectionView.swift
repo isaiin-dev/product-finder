@@ -243,8 +243,7 @@ extension SimpleCollectionViewController: UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        //let movie = self.movies[indexPath.row]
-        //self.presenter.goToDetailOf(movie: movie)
+        self.presenter.goToDetail(of: self.products[indexPath.row])
     }
     
     func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {

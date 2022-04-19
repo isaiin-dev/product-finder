@@ -19,7 +19,7 @@ class ProductImageCoreDataManager {
         let coreDataImage = ProductImage(context: managedContext)
         
         coreDataImage.productId = id
-        coreDataImage.imageData = image.jpeg(.high)
+        coreDataImage.imageData = image.jpeg(.highest)
         
         do {
             try managedContext.save()

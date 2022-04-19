@@ -17,6 +17,7 @@
 import Foundation
 
 protocol SimpleCollectionPresentationLogic {
+    func goToDetail(of product: SimpleCollection.SearchProducts.Product)
     func searchProducts(query: String)
     func save(favorite product: SimpleCollection.SearchProducts.Product)
     func deleteFavorite(by id: String)
@@ -56,6 +57,10 @@ class SimpleCollectionPresenter: Presenter, SimpleCollectionPresentationLogic {
     
     func deleteFavorite(by id: String) {
         interactor.deleteFavorite(by: id)
+    }
+    
+    func goToDetail(of product: SimpleCollection.SearchProducts.Product) {
+        router.routeToDetail(of: product)
     }
 }
 
