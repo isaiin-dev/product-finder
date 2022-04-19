@@ -16,7 +16,7 @@ enum BottomSheetAction {
     case leading, trailing, simpleOk
 }
 
-protocol BottomSeheetDelegate {
+protocol BottomSeheetDelegate: AnyObject {
     func didTap(action: BottomSheetAction, bottomSheet: BottomSheet)
 }
 
@@ -27,7 +27,7 @@ class BottomSheet: UIView {
     var target: UIViewController?
     var isOpen: Bool = false
     var blurEffectView: UIVisualEffectView?
-    var delegate: BottomSeheetDelegate?
+    weak var delegate: BottomSeheetDelegate?
     
     let TAG = "BottomSheet".hashValue
     

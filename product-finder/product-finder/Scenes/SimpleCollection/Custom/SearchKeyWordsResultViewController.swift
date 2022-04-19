@@ -7,7 +7,7 @@
 
 import UIKit
 
-protocol SearchKeyWordsResultViewControllerDelegate {
+protocol SearchKeyWordsResultViewControllerDelegate: AnyObject {
     func didSelect(keyword: String)
 }
 
@@ -52,7 +52,7 @@ class SearchKeyWordsResultViewController: UIViewController {
         }
     }
     
-    var delegate: SearchKeyWordsResultViewControllerDelegate?
+    weak var delegate: SearchKeyWordsResultViewControllerDelegate?
 
     // MARK: - Object lifecycle
     
