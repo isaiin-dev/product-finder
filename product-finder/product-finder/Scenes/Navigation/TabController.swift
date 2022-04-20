@@ -29,16 +29,16 @@ class TabController: UITabBarController {
         viewControllers = [
             createNavController(
                 for: SimpleCollectionViewController(),
-                title: "Product search",
-                image: UIImage(systemName: "magnifyingglass.circle")!),
+                title: Constants.Content.Scenes.searchTitle,
+                image: Constants.Content.Scenes.searchIcon),
             createNavController(
                 for: lasSearchViewController,
-                title: "Last search",
-                image: UIImage(systemName: "clock.arrow.circlepath")!),
+                title: Constants.Content.Scenes.lastSearchTitle,
+                image: Constants.Content.Scenes.lastSearchIcon),
             createNavController(
                 for: favoritesViewController,
-                title: "Favorites",
-                image: UIImage(systemName: "heart.circle")!)
+                title: Constants.Content.Scenes.favoritesTitle,
+                image: Constants.Content.Scenes.favoritesIcon)
         ]
     }
     

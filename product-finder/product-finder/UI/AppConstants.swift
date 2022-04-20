@@ -43,6 +43,15 @@ struct Constants {
     }
     
     struct Content {
+        struct Scenes {
+            static let searchTitle      = "Product search"
+            static let lastSearchTitle  = "Last search"
+            static let favoritesTitle   = "Favorites"
+            
+            static let searchIcon       = UIImage(systemName: "magnifyingglass.circle")!
+            static let lastSearchIcon   = UIImage(systemName: "clock.arrow.circlepath")!
+            static let favoritesIcon    = UIImage(systemName: "heart.circle")!
+        }
         struct ProductDetail {
             static let title        = "Details"
             static let attributes   = "Features"
