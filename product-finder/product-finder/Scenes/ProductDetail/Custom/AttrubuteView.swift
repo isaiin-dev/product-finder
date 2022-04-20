@@ -27,7 +27,7 @@ class AttributeView: UIView {
     private var title: UILabel = {
         let label = UILabel()
         label.textColor = .lightGray
-        label.font = UI.Font.subTitle
+        label.font = Constants.Design.Font.systemRegular10
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -35,7 +35,7 @@ class AttributeView: UIView {
     private var content: UILabel = {
         let label = UILabel()
         label.textColor = .darkGray
-        label.font = UI.Font.regularTitle
+        label.font = Constants.Design.Font.systemBold16
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

@@ -32,7 +32,7 @@ class ItemResultCell: UITableViewCell {
     private var title: UILabel = {
         var label = UILabel()
         label.textColor = .gray
-        label.font = UI.Font.smallTitle
+        label.font = Constants.Design.Font.systemBold13
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -41,7 +41,7 @@ class ItemResultCell: UITableViewCell {
     private var price: UILabel = {
         var label = UILabel()
         label.textColor = .darkGray
-        label.font = UI.Font.bigTitle
+        label.font = Constants.Design.Font.systemBold24
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -49,7 +49,7 @@ class ItemResultCell: UITableViewCell {
     private var installsOrTag: UILabel = {
         var label = UILabel()
         label.textColor = .lightGray
-        label.font = UI.Font.smallTitle
+        label.font = Constants.Design.Font.systemBold13
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -57,7 +57,7 @@ class ItemResultCell: UITableViewCell {
     private var shippingInfo: UILabel = {
         var label = UILabel()
         label.textColor = .lightGreen
-        label.font = UI.Font.smallTitle
+        label.font = Constants.Design.Font.systemBold13
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -128,31 +128,31 @@ class ItemResultCell: UITableViewCell {
         NSLayoutConstraint.activate([
             shimmeringView.leadingAnchor.constraint(
                 equalTo: contentView.leadingAnchor,
-                constant: UI.Layout.Spacing.Padding.Full),
+                constant: Constants.Design.Spacing.higest),
             shimmeringView.topAnchor.constraint(
                 equalTo: contentView.topAnchor,
-                constant: UI.Layout.Spacing.Padding.Medium),
+                constant: Constants.Design.Spacing.standard),
             shimmeringView.bottomAnchor.constraint(
                 equalTo: contentView.bottomAnchor,
-                constant: UI.Layout.Spacing.Padding.NegativeMedium),
+                constant: Constants.Design.Spacing.standard.negative()),
             shimmeringView.widthAnchor.constraint(
                 equalTo: contentView.widthAnchor, multiplier: 0.25),
             title.leadingAnchor.constraint(
                 equalTo: shimmeringView.trailingAnchor,
-                constant: UI.Layout.Spacing.Padding.Medium),
+                constant: Constants.Design.Spacing.standard),
             title.topAnchor.constraint(
                 equalTo: contentView.topAnchor,
-                constant: UI.Layout.Spacing.Padding.Full),
+                constant: Constants.Design.Spacing.higest),
             title.heightAnchor.constraint(
                 equalTo: contentView.heightAnchor,
                 multiplier: 0.25,
-                constant: UI.Layout.Spacing.Padding.NegativeMedium),
+                constant: Constants.Design.Spacing.standard.negative()),
             title.trailingAnchor.constraint(
                 equalTo: contentView.trailingAnchor,
-                constant: UI.Layout.Spacing.Padding.NegativeFull),
+                constant: Constants.Design.Spacing.higest.negative()),
             price.leadingAnchor.constraint(
                 equalTo: shimmeringView.trailingAnchor,
-                constant: UI.Layout.Spacing.Padding.Medium),
+                constant: Constants.Design.Spacing.standard),
             price.topAnchor.constraint(
                 equalTo: title.bottomAnchor),
             price.heightAnchor.constraint(
@@ -160,10 +160,10 @@ class ItemResultCell: UITableViewCell {
                 multiplier: 0.27),
             price.trailingAnchor.constraint(
                 equalTo: contentView.trailingAnchor,
-                constant: UI.Layout.Spacing.Padding.NegativeFull),
+                constant: Constants.Design.Spacing.higest.negative()),
             installsOrTag.leadingAnchor.constraint(
                 equalTo: shimmeringView.trailingAnchor,
-                constant: UI.Layout.Spacing.Padding.Medium),
+                constant: Constants.Design.Spacing.standard),
             installsOrTag.topAnchor.constraint(
                 equalTo: price.bottomAnchor),
             installsOrTag.heightAnchor.constraint(
@@ -171,10 +171,10 @@ class ItemResultCell: UITableViewCell {
                 multiplier: 0.15),
             installsOrTag.trailingAnchor.constraint(
                 equalTo: contentView.trailingAnchor,
-                constant: UI.Layout.Spacing.Padding.NegativeFull),
+                constant: Constants.Design.Spacing.higest.negative()),
             shippingInfo.leadingAnchor.constraint(
                 equalTo: shimmeringView.trailingAnchor,
-                constant: UI.Layout.Spacing.Padding.Medium),
+                constant: Constants.Design.Spacing.standard),
             shippingInfo.topAnchor.constraint(
                 equalTo: installsOrTag.bottomAnchor),
             shippingInfo.heightAnchor.constraint(
@@ -182,7 +182,7 @@ class ItemResultCell: UITableViewCell {
                 multiplier: 0.15),
             shippingInfo.trailingAnchor.constraint(
                 equalTo: contentView.trailingAnchor,
-                constant: UI.Layout.Spacing.Padding.NegativeFull)
+                constant: Constants.Design.Spacing.higest.negative())
         ])
     }
     

@@ -189,10 +189,23 @@ class SimpleCollectionViewController: UIViewController {
 
 extension SimpleCollectionViewController: SimpleCollectionDisplayLogic {
     func display(products: [SimpleCollection.SearchProducts.Product]) {
-        self.products = products
-        _ = UDManager.shared.save(object: products, for: .lastSearchItems)
-        
         DispatchQueue.main.async {
+            var updatedResults = products
+            
+            let favorites = FavoritesCoreDataManager.shared.getFavorites()
+            
+            favorites.forEach { fav in
+                for (index, item) in updatedResults.enumerated() {
+                    if item.id == fav.id {
+                        updatedResults[index].isFavorite = true
+                    }
+                }
+            }
+            
+            self.products = updatedResults
+            
+            _ = UDManager.shared.save(object: products, for: .lastSearchItems)
+            
             self.emptyStateImage.animation = Animation.named("empty-box")
             self.emptyStateImage.play()
         }
@@ -239,7 +252,7 @@ extension SimpleCollectionViewController: UITableViewDelegate, UITableViewDataSo
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        UI.Layout.Sizing.Cells.SearchResultCell.height
+        Constants.Design.Sizing.Cell.cellHeight
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {

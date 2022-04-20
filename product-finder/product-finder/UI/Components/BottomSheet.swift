@@ -36,7 +36,7 @@ class BottomSheet: UIView {
     lazy var title: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = UI.Font.bigTitle
+        label.font = Constants.Design.Font.systemBold24
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -44,7 +44,7 @@ class BottomSheet: UIView {
     lazy var content: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = UI.Font.paragraph
+        label.font = Constants.Design.Font.systemRegular16
         label.numberOfLines = 0
         label.adjustsFontSizeToFitWidth = true
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -75,7 +75,7 @@ class BottomSheet: UIView {
     lazy var twinsButtons: UIStackView = {
         var stack = UIStackView()
         stack.axis = .horizontal
-        stack.spacing = UI.Layout.Spacing.Padding.Medium
+        stack.spacing = Constants.Design.Spacing.standard
         stack.distribution = .fillEqually
         stack.translatesAutoresizingMaskIntoConstraints = false
         
@@ -189,23 +189,23 @@ class BottomSheet: UIView {
     
     private func setupContraints() {
         let titleConstraints = [
-            title.topAnchor.constraint(equalTo: topAnchor, constant: UI.Layout.Spacing.Padding.Full),
-            title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
-            title.trailingAnchor.constraint(equalTo: trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+            title.topAnchor.constraint(equalTo: topAnchor, constant: Constants.Design.Spacing.higest),
+            title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.Design.Spacing.higest),
+            title.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Constants.Design.Spacing.higest.negative()),
             title.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2)
         ]
         
         let contentConstraints = [
             content.topAnchor.constraint(equalTo: title.bottomAnchor),
-            content.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
-            content.trailingAnchor.constraint(equalTo: trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+            content.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.Design.Spacing.higest),
+            content.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Constants.Design.Spacing.higest.negative()),
             content.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.25)
         ]
         
         let imageConstraints = [
             image.topAnchor.constraint(equalTo: title.bottomAnchor),
-            image.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
-            image.trailingAnchor.constraint(equalTo: trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+            image.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.Design.Spacing.higest),
+            image.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Constants.Design.Spacing.higest.negative()),
             image.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.4)
         ]
         
@@ -223,9 +223,9 @@ class BottomSheet: UIView {
                 constraints += contentConstraints
                 
                 constraints += [
-                    bigButton.topAnchor.constraint(equalTo: content.bottomAnchor, constant: UI.Layout.Spacing.Padding.Full),
-                    bigButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
-                    bigButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+                    bigButton.topAnchor.constraint(equalTo: content.bottomAnchor, constant: Constants.Design.Spacing.higest),
+                    bigButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.Design.Spacing.higest),
+                    bigButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Constants.Design.Spacing.higest.negative()),
                     bigButton.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2)
                 ]
             }
@@ -234,9 +234,9 @@ class BottomSheet: UIView {
                 constraints += imageConstraints
                 
                 constraints += [
-                    bigButton.topAnchor.constraint(equalTo: image.bottomAnchor, constant: UI.Layout.Spacing.Padding.Full),
-                    bigButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
-                    bigButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+                    bigButton.topAnchor.constraint(equalTo: image.bottomAnchor, constant: Constants.Design.Spacing.higest),
+                    bigButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.Design.Spacing.higest),
+                    bigButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Constants.Design.Spacing.higest.negative()),
                     bigButton.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2)
                 ]
             }
@@ -249,9 +249,9 @@ class BottomSheet: UIView {
                 constraints += contentConstraints
                 
                 constraints += [
-                    twinsButtons.topAnchor.constraint(equalTo: content.bottomAnchor, constant: UI.Layout.Spacing.Padding.Full),
-                    twinsButtons.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
-                    twinsButtons.trailingAnchor.constraint(equalTo: trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+                    twinsButtons.topAnchor.constraint(equalTo: content.bottomAnchor, constant: Constants.Design.Spacing.higest),
+                    twinsButtons.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.Design.Spacing.higest),
+                    twinsButtons.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Constants.Design.Spacing.higest.negative()),
                     twinsButtons.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2)
                 ]
             }
@@ -260,9 +260,9 @@ class BottomSheet: UIView {
                 constraints += imageConstraints
                 
                 constraints += [
-                    twinsButtons.topAnchor.constraint(equalTo: image.bottomAnchor, constant: UI.Layout.Spacing.Padding.Full),
-                    twinsButtons.leadingAnchor.constraint(equalTo: leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
-                    twinsButtons.trailingAnchor.constraint(equalTo: trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+                    twinsButtons.topAnchor.constraint(equalTo: image.bottomAnchor, constant: Constants.Design.Spacing.higest),
+                    twinsButtons.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.Design.Spacing.higest),
+                    twinsButtons.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Constants.Design.Spacing.higest.negative()),
                     twinsButtons.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2)
                 ]
             }

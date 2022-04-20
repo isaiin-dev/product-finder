@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 extension Float {
     func asCurrency() -> String {
@@ -15,5 +16,15 @@ extension Float {
         formatter.locale = Locale(identifier: "es_MX")
         
         return formatter.string(from: NSNumber(value: self)) ?? "--"
+    }
+    
+    func negative() -> Float {
+        return -self
+    }
+}
+
+extension CGFloat {
+    func negative() -> CGFloat {
+        return -self
     }
 }

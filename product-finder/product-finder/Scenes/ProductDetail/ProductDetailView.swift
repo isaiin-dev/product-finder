@@ -43,7 +43,7 @@ class ProductDetailViewController: UIViewController {
     private var titleLabel: UILabel = {
         var label = UILabel()
         label.textColor = .gray
-        label.font = UI.Font.regularTitle
+        label.font = Constants.Design.Font.systemBold16
         label.numberOfLines = 0
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -69,7 +69,7 @@ class ProductDetailViewController: UIViewController {
     private var price: UILabel = {
         var label = UILabel()
         label.textColor = .darkGray
-        label.font = UI.Font.superBigTitle
+        label.font = Constants.Design.Font.systemBold34
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -77,7 +77,7 @@ class ProductDetailViewController: UIViewController {
     private var installsOrTag: UILabel = {
         var label = UILabel()
         label.textColor = .lightGray
-        label.font = UI.Font.regularTitle
+        label.font = Constants.Design.Font.systemBold16
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -85,7 +85,7 @@ class ProductDetailViewController: UIViewController {
     private var shippingInfo: UILabel = {
         var label = UILabel()
         label.textColor = .lightGreen
-        label.font = UI.Font.regularTitle
+        label.font = Constants.Design.Font.systemBold16
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -93,7 +93,7 @@ class ProductDetailViewController: UIViewController {
     private var attributesLabel: UILabel = {
         let label = UILabel()
         label.textColor = .darkGray
-        label.font = UI.Font.superBigTitle
+        label.font = Constants.Design.Font.systemBold34
         label.text = "Features"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -236,45 +236,45 @@ class ProductDetailViewController: UIViewController {
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
             contentView.heightAnchor.constraint(equalToConstant: contentViewCalculatedHeight),
             // titleLabel constraints
-            titleLabel.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
-            titleLabel.topAnchor.constraint(equalTo: layoutGuide.topAnchor, constant: UI.Layout.Spacing.Padding.Full),
-            titleLabel.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+            titleLabel.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: Constants.Design.Spacing.higest),
+            titleLabel.topAnchor.constraint(equalTo: layoutGuide.topAnchor, constant: Constants.Design.Spacing.higest),
+            titleLabel.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: Constants.Design.Spacing.higest.negative()),
             titleLabel.heightAnchor.constraint(equalToConstant: 60.0),
             // shimmeringView constraints
-            shimmeringView.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
-            shimmeringView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: UI.Layout.Spacing.Padding.Full),
-            shimmeringView.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+            shimmeringView.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: Constants.Design.Spacing.higest),
+            shimmeringView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Constants.Design.Spacing.higest),
+            shimmeringView.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: Constants.Design.Spacing.higest.negative()),
             shimmeringView.heightAnchor.constraint(equalTo: safeArea.heightAnchor, multiplier: 0.4),
             // price constraints
-            price.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
-            price.topAnchor.constraint(equalTo: shimmeringView.bottomAnchor, constant: UI.Layout.Spacing.Padding.Full),
+            price.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: Constants.Design.Spacing.higest),
+            price.topAnchor.constraint(equalTo: shimmeringView.bottomAnchor, constant: Constants.Design.Spacing.higest),
             price.heightAnchor.constraint(equalToConstant: 60),
-            price.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+            price.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: Constants.Design.Spacing.higest.negative()),
             // installsOrTag constraints
-            installsOrTag.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
+            installsOrTag.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: Constants.Design.Spacing.higest),
             installsOrTag.topAnchor.constraint(equalTo: price.bottomAnchor),
             installsOrTag.heightAnchor.constraint(equalToConstant: 30),
-            installsOrTag.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+            installsOrTag.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: Constants.Design.Spacing.higest.negative()),
             // shippingInfo constraints
-            shippingInfo.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
+            shippingInfo.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: Constants.Design.Spacing.higest),
             shippingInfo.topAnchor.constraint(equalTo: installsOrTag.bottomAnchor),
             shippingInfo.heightAnchor.constraint(equalToConstant: 30),
-            shippingInfo.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+            shippingInfo.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: Constants.Design.Spacing.higest.negative()),
             // attributesLabel constraints
-            attributesLabel.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
-            attributesLabel.topAnchor.constraint(equalTo: shippingInfo.bottomAnchor, constant: UI.Layout.Spacing.Padding.Full),
+            attributesLabel.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: Constants.Design.Spacing.higest),
+            attributesLabel.topAnchor.constraint(equalTo: shippingInfo.bottomAnchor, constant: Constants.Design.Spacing.higest),
             attributesLabel.heightAnchor.constraint(equalToConstant: 60),
-            attributesLabel.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+            attributesLabel.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: Constants.Design.Spacing.higest.negative()),
             // attributesStack constraints
-            attributesStack.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
-            attributesStack.topAnchor.constraint(equalTo: attributesLabel.bottomAnchor, constant: UI.Layout.Spacing.Padding.Full),
+            attributesStack.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: Constants.Design.Spacing.higest),
+            attributesStack.topAnchor.constraint(equalTo: attributesLabel.bottomAnchor, constant: Constants.Design.Spacing.higest),
             attributesStack.heightAnchor.constraint(equalToConstant: attributesStackCalculatedHeight),
-            attributesStack.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull),
+            attributesStack.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: Constants.Design.Spacing.higest.negative()),
             // bigButton constraints
-            bigButton.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: UI.Layout.Spacing.Padding.Full),
-            bigButton.topAnchor.constraint(equalTo: attributesStack.bottomAnchor, constant: UI.Layout.Spacing.Padding.Full * 1.5),
+            bigButton.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor, constant: Constants.Design.Spacing.higest),
+            bigButton.topAnchor.constraint(equalTo: attributesStack.bottomAnchor, constant: Constants.Design.Spacing.higest * 1.5),
             bigButton.heightAnchor.constraint(equalToConstant: 50),
-            bigButton.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: UI.Layout.Spacing.Padding.NegativeFull)
+            bigButton.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor, constant: Constants.Design.Spacing.higest.negative())
         ])
 	}
 

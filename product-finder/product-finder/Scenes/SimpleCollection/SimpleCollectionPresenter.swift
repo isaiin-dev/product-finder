@@ -66,19 +66,7 @@ class SimpleCollectionPresenter: Presenter, SimpleCollectionPresentationLogic {
 
 extension SimpleCollectionPresenter: SimpleCollectionBusinessLogicDelegate {
     func present(products: SimpleCollection.SearchProducts.Response) {
-        var updatedResults = products.results
-        
-        let favorites = FavoritesCoreDataManager.shared.getFavorites()
-        
-        favorites.forEach { fav in
-            for (index, item) in updatedResults.enumerated() {
-                if item.id == fav.id {
-                    updatedResults[index].isFavorite = true
-                }
-            }
-        }
-        
-        view.display(products: updatedResults)
+        view.display(products: products.results)
     }
     
     func present(favoriteSaved: Bool) {
