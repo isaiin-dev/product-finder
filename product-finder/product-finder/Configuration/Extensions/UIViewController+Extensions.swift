@@ -29,4 +29,9 @@ extension UIViewController {
         self.tabBarController?.bottomSheet?.delegate = delegate
         self.tabBarController?.bottomSheet?.show()
     }
+    
+    func showToast(data: BottomSheet.ToastData) {
+        self.tabBarController?.bottomSheet = BottomSheet(target: self, style: .toast(data: data))
+        self.tabBarController?.bottomSheet?.show()
+    }
 }

@@ -347,6 +347,8 @@ extension SimpleCollectionViewController: BottomSeheetDelegate {
             bottomSheet.hide()
         case .simpleOk:
             bottomSheet.hide()
+        case .toast:
+            bottomSheet.hide()
         }
     }
 }

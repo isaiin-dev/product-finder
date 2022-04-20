@@ -10,10 +10,11 @@ import UIKit
 enum BottomSheetStyle {
     case info(data: BottomSheet.InfoData)
     case action(data: BottomSheet.ActionData)
+    case toast(data: BottomSheet.ToastData)
 }
 
 enum BottomSheetAction {
-    case leading, trailing, simpleOk
+    case leading, trailing, simpleOk, toast
 }
 
 protocol BottomSeheetDelegate: AnyObject {
@@ -28,6 +29,7 @@ class BottomSheet: UIView {
     var isOpen: Bool = false
     var blurEffectView: UIVisualEffectView?
     weak var delegate: BottomSeheetDelegate?
+    var isToast: Bool = false
     
     let TAG = "BottomSheet".hashValue
     
@@ -126,6 +128,12 @@ class BottomSheet: UIView {
                 y: parentFrame.height,
                 width: parentFrame.width,
                 height: parentFrame.height * 0.25)
+        case .toast(_):
+            frame = CGRect(
+                x: .zero,
+                y: parentFrame.height,
+                width: parentFrame.width,
+                height: parentFrame.height * 0.1)
         }
         
         super.init(frame: frame)
@@ -181,6 +189,13 @@ class BottomSheet: UIView {
             }
             
             addSubview(twinsButtons)
+        case .toast(let data):
+            if let dataContent = data.content {
+                addSubview(title)
+                title.text = dataContent
+                title.font = Constants.Design.Font.systemBold16
+                self.isToast = true
+            }
         }
 
         setupContraints()
@@ -266,6 +281,15 @@ class BottomSheet: UIView {
                     twinsButtons.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2)
                 ]
             }
+        case .toast(let data):
+            if data.content != nil {
+                constraints += [
+                    title.topAnchor.constraint(equalTo: topAnchor, constant: Constants.Design.Spacing.higest * 1.5),
+                    title.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Constants.Design.Spacing.higest),
+                    title.trailingAnchor.constraint(equalTo: trailingAnchor, constant: Constants.Design.Spacing.higest.negative()),
+                    title.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.2)
+                ]
+            }
         }
         
         NSLayoutConstraint.activate(constraints)
@@ -313,24 +337,39 @@ class BottomSheet: UIView {
         let content: String?
         let image: UIImage?
     }
+    
+    struct ToastData {
+        let content: String?
+    }
 }
 
 extension BottomSheet {
     func showAnimation() {
+        if !isToast {
+            self.target?.navigationController?.setNavigationBarHidden(true, animated: true)
+        }
         self.target?.tabBarController?.tabBar.isHidden = true
-        self.target?.navigationController?.setNavigationBarHidden(true, animated: true)
         DispatchQueue.main.async {
             if let blur = self.blurEffectView {
-                blur.alpha = 0
-                self.target?.view.addSubview(blur)
+                if !self.isToast {
+                    blur.alpha = 0
+                    self.target?.view.addSubview(blur)
+                }
             }
             self.target?.view.addSubview(self)
             UIView.animate(withDuration: 0.25, delay: .zero, options: .curveEaseOut) {
                 self.frame.origin.y = (self.target?.view.frame.height)! - self.frame.height
-                self.blurEffectView?.alpha = 0.7
+                if !self.isToast {
+                    self.blurEffectView?.alpha = 0.7
+                }
             } completion: { finished in
                 if finished {
                     self.isOpen = true
+                    if self.isToast {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                            self.hide()
+                        }
+                    }
                 }
             }
         }
@@ -343,15 +382,19 @@ extension BottomSheet {
                 UIView.animate(withDuration: 0.25, delay: .zero, options: .curveEaseOut) {
                     self.frame.origin.y = (self.target?.view.frame.height)!
                     if let blur = self.blurEffectView {
-                        blur.alpha = 0
-                        blur.removeFromSuperview()
+                        if !self.isToast {
+                            blur.alpha = 0
+                            blur.removeFromSuperview()
+                        }
                     }
                 } completion: { finished in
                     if finished {
                         sView.removeFromSuperview()
                         self.isOpen = false
                         self.target?.tabBarController?.tabBar.isHidden = false
-                        self.target?.navigationController?.setNavigationBarHidden(false, animated: true)
+                        if !self.isToast {
+                            self.target?.navigationController?.setNavigationBarHidden(false, animated: true)
+                        }
                     }
                 }
             })
