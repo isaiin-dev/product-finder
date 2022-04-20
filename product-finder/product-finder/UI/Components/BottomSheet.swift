@@ -7,35 +7,67 @@
 
 import UIKit
 
+/// Enumeration that repesents all the different styles of the **BottomSheet**
 enum BottomSheetStyle {
+    /// **Info style** just creates an informative bottomSheet
     case info(data: BottomSheet.InfoData)
+    /// **Action style** creates an informative bottomSheet with leading and trailing actions (buttons)
     case action(data: BottomSheet.ActionData)
+    /// **Toast style** just creates an informative minimal bottomSheet without actions
     case toast(data: BottomSheet.ToastData)
 }
 
+/// Enumeration that repesents all the different types of actions in the **BottomSheet**
 enum BottomSheetAction {
-    case leading, trailing, simpleOk, toast
+    /// **leading** button located to the start of the view
+    case leading
+    /// **trailing** button located to the end of the view
+    case trailing
+    /// **simpleOk** unique button located to the center of the view
+    case simpleOk
+    /// **toast** no buttons in the view
+    case toast
 }
 
+/// Protocol to delegate the **didTap** action to the presenting controller of the bottomSheet
 protocol BottomSeheetDelegate: AnyObject {
+    /**
+     Indicates which action was selected
+     
+     - Author: IsaiinDev
+     - Parameters:
+        - action: The **BottomSheetAction** set for this instance.
+        - bottomSheet: The **current instanse** reference of the bottomSheet.
+        - code: The code that identifies the bottomSheet.
+     - returns: nothing
+     */
     func didTap(action: BottomSheetAction, bottomSheet: BottomSheet, code: Int)
 }
 
 class BottomSheet: UIView {
     // MARK: - Properties
     
+    /// Determines how the bottomSheet will look
     var style: BottomSheetStyle?
+    /// The presenting viewController
     var target: UIViewController?
+    /// Says if the bottomSheet is open or not
     var isOpen: Bool = false
+    /// Represents a sub view of the bottomSheet used to give relevance to the alert
     var blurEffectView: UIVisualEffectView?
+    /// Delegate to comunicate actions to the presenting viewController
     weak var delegate: BottomSeheetDelegate?
+    /// Determines if the bottomSheet will look as a simple Toast
     var isToast: Bool = false
+    /// The code that identifies the bottomSheet.
     var code: Int = 0
     
+    /// The tag that identifies the bottomSheet.
     let TAG = "BottomSheet".hashValue
     
     // MARK: - Subviews
     
+    /// The title that the bottomSheet displays
     lazy var title: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -44,6 +76,7 @@ class BottomSheet: UIView {
         return label
     }()
     
+    /// The content that the bottomSheet displays
     lazy var content: UILabel = {
         let label = UILabel()
         label.textColor = .white
@@ -54,6 +87,7 @@ class BottomSheet: UIView {
         return label
     }()
     
+    /// The image that the bottomSheet displays
     lazy var image: UIImageView = {
         let image = UIImageView()
         image.contentMode = .scaleAspectFit
@@ -61,6 +95,7 @@ class BottomSheet: UIView {
         return image
     }()
     
+    /// The bigButton that the bottomSheet displays
     lazy var bigButton: UIView = {
         var configuration = UIButton.Configuration.tinted()
         configuration.title = "OK"
@@ -75,6 +110,7 @@ class BottomSheet: UIView {
         return button
     }()
     
+    /// The set of leading and trailingbuttons that the bottomSheet displays
     lazy var twinsButtons: UIStackView = {
         var stack = UIStackView()
         stack.axis = .horizontal
@@ -114,6 +150,15 @@ class BottomSheet: UIView {
     
     // MARK: - Lifecycle
     
+    /**
+     Creates a new instance of BottomSheet
+     
+     - Author: IsaiinDev
+     - Parameters:
+        - target: The reference of the presenting viewController
+        - style: A property that determines how the bottomSheet will look
+     - returns: a new instance of BottomSheet
+     */
     init(target: UIViewController, style: BottomSheetStyle) {
         var frame: CGRect = .zero
         let parentFrame = target.view.frame
@@ -152,6 +197,7 @@ class BottomSheet: UIView {
     
     // MARK: - Setup view
     
+    /// Configures the bottomSheet subviews to look acording to **style** property
     private func setupView() {
         backgroundColor = .purpureus
         
@@ -223,6 +269,7 @@ class BottomSheet: UIView {
         addVisualEffect()
     }
     
+    /// Configures the subviews constraints to lay out properly the bottomSheet
     private func setupContraints() {
         let titleConstraints = [
             title.topAnchor.constraint(equalTo: topAnchor, constant: Constants.Design.Spacing.higest),
@@ -316,6 +363,7 @@ class BottomSheet: UIView {
         NSLayoutConstraint.activate(constraints)
     }
     
+    /// Add a subview to the bottomSheet that creates a blur effect behind it
     private func addVisualEffect() {
         if let parent = self.target {
             let blurEffect = UIBlurEffect(style: .systemUltraThinMaterialDark)
@@ -331,28 +379,33 @@ class BottomSheet: UIView {
     
     // MARK: - Actions
     
+    /// Shows the bottomSheet
     func show() {
         guard !isOpen else { return }
         showAnimation()
     }
     
+    /// Hides the bottomSheet
     func hide() {
         guard isOpen else { return }
         hideAnimation()
     }
     
+    /// Hidest the bottomSheet when user touches the blur view
     @objc func didTapBlur(_ sender: UITapGestureRecognizer) {
         hide()
     }
     
     // MARK: - Structs
     
+    /// Represents the data for the **info** bottomSheet style
     struct InfoData {
         let title: String?
         let content: String?
         let image: UIImage?
     }
     
+    /// Represents the data for the **action** bottomSheet style
     struct ActionData {
         let title: String?
         let content: String?
@@ -361,12 +414,15 @@ class BottomSheet: UIView {
         let code: Int?
     }
     
+    /// Represents the data for the **toast** bottomSheet style
     struct ToastData {
         let content: String?
     }
 }
 
+/// Implementation of the **hide** & **show** animations of the BottomSheet
 extension BottomSheet {
+    /// Adds the bottom sheet to the presenting controller and shows it with an animation
     func showAnimation() {
         if !isToast {
             self.target?.navigationController?.setNavigationBarHidden(true, animated: true)
@@ -398,6 +454,7 @@ extension BottomSheet {
         }
     }
     
+    /// Removes the bottom sheet from the presenting controller and hides it with an animation
     func hideAnimation() {
         DispatchQueue.main.async {
             self.target?.view.subviews.forEach({ sView in
