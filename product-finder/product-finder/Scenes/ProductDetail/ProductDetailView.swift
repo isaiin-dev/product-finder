@@ -94,7 +94,7 @@ class ProductDetailViewController: UIViewController {
         let label = UILabel()
         label.textColor = .darkGray
         label.font = Constants.Design.Font.systemBold34
-        label.text = "Features"
+        label.text = Constants.Content.ProductDetail.attributes
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -109,7 +109,7 @@ class ProductDetailViewController: UIViewController {
     
     lazy var bigButton: UIView = {
         var configuration = UIButton.Configuration.filled()
-        configuration.title = "Show in MercadoLible"
+        configuration.title = Constants.Content.ProductDetail.CTA
         configuration.cornerStyle = .large
         configuration.baseForegroundColor = .white
         configuration.baseBackgroundColor = .kobi
@@ -150,7 +150,7 @@ class ProductDetailViewController: UIViewController {
             }
             view.addSubview(installsOrTag)
             
-            shippingInfo.text = "\(product.isFavorite ?? false ? "💜 - ":"")\(product.shipping.freeShipping ? "Envio gratis ":"")\(product.shipping.logisticType == "fulfillment" ? "⚡️FULL":"")"
+            shippingInfo.text = "\(product.isFavorite ?? false ? "💜 - ":"")\(product.shipping.freeShipping ? Constants.Content.ProductDetail.freeShipping : "")\(product.shipping.logisticType == "fulfillment" ? Constants.Content.ProductDetail.full : "")"
             view.addSubview(shippingInfo)
             
             view.addSubview(attributesLabel)
@@ -213,7 +213,7 @@ class ProductDetailViewController: UIViewController {
 	private func setupView() {
         view.backgroundColor = .white
         self.navigationController?.navigationBar.prefersLargeTitles = false
-        self.title = "Details"
+        self.title = Constants.Content.ProductDetail.title
         view.addSubview(scrollView)
         setupConstraints()
 	}

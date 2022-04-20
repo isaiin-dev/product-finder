@@ -43,6 +43,12 @@ struct Constants {
     }
     
     struct Content {
-        
+        struct ProductDetail {
+            static let title        = "Details"
+            static let attributes   = "Features"
+            static let CTA          = "Show in MercadoLible"
+            static let freeShipping = "Envio gratis "
+            static let full         = "⚡️FULL"
+        }
     }
 }
