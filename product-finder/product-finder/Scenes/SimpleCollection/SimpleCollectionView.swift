@@ -229,7 +229,7 @@ extension SimpleCollectionViewController: SimpleCollectionDisplayLogic {
     }
     
     func display(error: String) {
-        print(error)
+        Log.toConsole(type: .e, tag: "Error", error)
     }
 }
 

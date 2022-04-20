@@ -29,7 +29,7 @@ class FavoritesCoreDataManager {
             try managedContext.save()
             return true
         } catch let error as NSError {
-            print("Error saving product: \(error.localizedDescription)")
+            Log.toConsole(type: .e, tag: "Error saving product", error)
             return false
         }
     }
@@ -53,7 +53,7 @@ class FavoritesCoreDataManager {
             }
             
         } catch let error as NSError {
-            print("Error getting all products: \(error.localizedDescription)")
+            Log.toConsole(type: .e, tag: "Error getting all products", error)
         }
         
         return favorites
@@ -77,7 +77,7 @@ class FavoritesCoreDataManager {
             
             try managedContext.save()
         } catch let error as NSError {
-            print("Error deleting all products: \(error.localizedDescription)")
+            Log.toConsole(type: .e, tag: "Error deleting all products", error)
         }
         
         return deleted
@@ -98,7 +98,7 @@ class FavoritesCoreDataManager {
             
             try managedContext.save()
         } catch let error as NSError {
-            print("Error deleting all products: \(error.localizedDescription)")
+            Log.toConsole(type: .e, tag: "Error deleting all products" , error)
         }
     }
 }

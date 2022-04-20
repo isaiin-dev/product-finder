@@ -17,7 +17,7 @@
 import Foundation
 
 protocol ProductDetailPresentationLogic {
-    func doSomething(request: ProductDetail.SomeUseCase.Request)
+    
 }
 
 class ProductDetailPresenter: Presenter, ProductDetailPresentationLogic {
@@ -36,19 +36,9 @@ class ProductDetailPresenter: Presenter, ProductDetailPresentationLogic {
     }()
 
     // MARK: - PresentationLogic implementation
-
-    func doSomething(request: ProductDetail.SomeUseCase.Request) {
-        // Call to interactor
-        self.interactor.requestSomething(request: ProductDetail.SomeUseCase.Request())
-    }    
+ 
 }
 
 extension ProductDetailPresenter: ProductDetailBusinessLogicDelegate {
-    func presentSuccess(response: ProductDetail.SomeUseCase.Response) {
-        self.view.displaySomething(viewModel: ProductDetail.SomeUseCase.ViewModel())
-    }
 
-    func presentFailure() {
-        self.router.routeToSomewhere()
-    }
 }

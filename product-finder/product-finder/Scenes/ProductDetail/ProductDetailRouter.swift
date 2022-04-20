@@ -15,7 +15,7 @@
 import UIKit
 
 protocol ProductDetailRoutingLogic {
-  func routeToSomewhere()
+  
 }
 
 class ProductDetailRouter: Router, ProductDetailRoutingLogic {
@@ -23,7 +23,4 @@ class ProductDetailRouter: Router, ProductDetailRoutingLogic {
       return self._view as! ProductDetailViewController
   }()
 
-  func routeToSomewhere() {
-        
-  }
 }

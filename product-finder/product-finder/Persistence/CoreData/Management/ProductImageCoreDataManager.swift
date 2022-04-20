@@ -24,7 +24,7 @@ class ProductImageCoreDataManager {
         do {
             try managedContext.save()
         } catch let error as NSError {
-            print("Error saving image: \(error.localizedDescription)")
+            Log.toConsole(type: .e, tag: "Error saving image", error)
         }
     }
     
@@ -49,7 +49,7 @@ class ProductImageCoreDataManager {
                 
                 completion(image)
             } catch let error as NSError {
-                print("Erron getting images: \(error.localizedDescription)")
+                Log.toConsole(type: .e, tag: "Error getting images", error)
                 completion(nil)
             }
         }
@@ -70,7 +70,7 @@ class ProductImageCoreDataManager {
             
             try managedContext.save()
         } catch let error as NSError {
-            print("Erron getting images: \(error.localizedDescription)")
+            Log.toConsole(type: .e, tag: "Error deleting all images", error)
         }
     }
 }

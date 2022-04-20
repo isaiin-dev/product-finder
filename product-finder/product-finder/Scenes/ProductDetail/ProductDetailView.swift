@@ -17,7 +17,7 @@ import UIKit
 import ShimmerSwift
 
 protocol ProductDetailDisplayLogic: View {
-	func displaySomething(viewModel: ProductDetail.SomeUseCase.ViewModel)
+	
 }
 
 class ProductDetailViewController: UIViewController {
@@ -282,7 +282,7 @@ class ProductDetailViewController: UIViewController {
 }
 
 extension ProductDetailViewController: ProductDetailDisplayLogic {
-	func displaySomething(viewModel: ProductDetail.SomeUseCase.ViewModel) {}
+	
 }
 
 // MARK: - Helpers

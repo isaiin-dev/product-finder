@@ -16,7 +16,5 @@
 import Foundation
 
 class ProductDetailWorker {
-    func doSomeWork() -> Bool{
-        return true
-    }
+
 }

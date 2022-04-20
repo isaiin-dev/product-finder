@@ -42,23 +42,17 @@ class Log {
         return formatter
     }
     
-    fileprivate static func _print(_ object: Any) {
-        #if DEBUG
-            Swift.print(object)
-        #endif
-    }
-    
     fileprivate static func getFileName(filePath: String) -> String {
         let components = filePath.components(separatedBy: "/")
         return components.isEmpty ? "" : components.last!
     }
     
     fileprivate static func Log(tag: String, strToLog: String) {
-        _print("")
-        _print("🀰🀰🀰🀰🀰🀰🀰🀰🀰🀰 Log Start: \(tag) 🀰🀰🀰🀰🀰🀰🀰🀰🀰🀰")
-        _print(strToLog)
-        _print("🀰🀰🀰🀰🀰🀰🀰🀰🀰🀰 Log End: \(tag)  🀰🀰🀰🀰🀰🀰🀰🀰🀰🀰")
-        _print("")
+        print("")
+        print("🀰🀰🀰🀰🀰🀰🀰🀰🀰🀰 Log Start: \(tag) 🀰🀰🀰🀰🀰🀰🀰🀰🀰🀰")
+        print(strToLog)
+        print("🀰🀰🀰🀰🀰🀰🀰🀰🀰🀰 Log End: \(tag)  🀰🀰🀰🀰🀰🀰🀰🀰🀰🀰")
+        print("")
     }
     
     fileprivate static var canLog: Bool {

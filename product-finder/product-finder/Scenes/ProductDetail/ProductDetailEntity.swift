@@ -17,11 +17,4 @@ import Foundation
 enum ProductDetail {
 	// MARK: - Use cases
 
-	enum SomeUseCase {
-		struct Request: Codable {}
-
-		struct Response: Codable {}
-
-		struct ViewModel: Codable {}
-	}
 }

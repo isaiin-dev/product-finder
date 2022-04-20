@@ -16,13 +16,12 @@
 import Foundation
 
 protocol ProductDetailBusinessLogic {
-    func requestSomething(request: ProductDetail.SomeUseCase.Request)
+
 }
 
 // MARK: - Back comunication to Presenter
 protocol ProductDetailBusinessLogicDelegate: InteractorToPresenter {
-    func presentSuccess(response: ProductDetail.SomeUseCase.Response)
-    func presentFailure()
+ 
 }
 
 class ProductDetailInteractor: Interactor, ProductDetailBusinessLogic {
@@ -36,13 +35,4 @@ class ProductDetailInteractor: Interactor, ProductDetailBusinessLogic {
 
     // MARK: - BussinesLogic Implementation
 
-    func requestSomething(request: ProductDetail.SomeUseCase.Request) {
-        let response = worker.doSomeWork()
-
-        if response {
-            self.presenter.presentSuccess(response: ProductDetail.SomeUseCase.Response())
-        } else {
-            self.presenter.presentFailure()
-        }
-    }
 }

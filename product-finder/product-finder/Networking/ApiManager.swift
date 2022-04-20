@@ -41,6 +41,7 @@ class APIManager {
             completion(.failure(RequestError(statusCode: 00, description: "InvalidRequest", data: nil)))
             return
         }
+        Log.toConsole(type: .i, tag: "Request", request)
         session.dataTask(with: request) { result in
             switch result {
             case .success(let (response, data)):
@@ -49,7 +50,7 @@ class APIManager {
                     (200...299).contains(httpResponse.statusCode)
                 else {
                     let str = String(decoding: data, as: UTF8.self)
-                    print("Data for error: \(str)")
+                    Log.toConsole(type: .e, tag: "Bad response", str)
                     completion(.failure(self.getError(response: response, data: data)))
                     return
                 }
@@ -58,9 +59,9 @@ class APIManager {
                 
                 do {
                     json = try JSONSerialization.jsonObject(with: data, options: []) as! [String: Any]
-                    print(json)
+                    Log.toConsole(type: .d, tag: "Response OK", json)
                 } catch let error {
-                    print("Decoding ERROR - \(error)")
+                    Log.toConsole(type: .e, tag: "Decoding error", error)
                 }
                 
                 var decodingErrorMessage = ""
@@ -79,10 +80,9 @@ class APIManager {
                     decodingErrorMessage = "Type \(type) mismatch: \(context.debugDescription) | codingPath: \(context.codingPath)"
                 } catch {
                     decodingErrorMessage = error.localizedDescription
-                    print(error)
                 }
                 
-                print(decodingErrorMessage)
+                Log.toConsole(type: .e, tag: "Decoding error", decodingErrorMessage)
                 completion(.failure(RequestError(
                                     statusCode: 00,
                                     description: "Error decoding response")))
