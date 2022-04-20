@@ -44,7 +44,7 @@ class SimpleCollectionViewController: UIViewController {
                 self.table.reloadData()
                 if self.products.isEmpty {
                     self.navigationItem.rightBarButtonItem?.isEnabled = false
-                    self.navigationController?.navigationBar.topItem?.title = "Product search"
+                    self.navigationController?.navigationBar.topItem?.title = Constants.Content.SimpleCollectionView.Search.title
                 } else {
                     if self.style == .Search {
                         self.navigationItem.rightBarButtonItem?.isEnabled = true
@@ -63,8 +63,7 @@ class SimpleCollectionViewController: UIViewController {
         var controller = UISearchController(searchResultsController: searchResultsController)
         controller.searchBar.tintColor = UIColor.white
         controller.searchBar.searchTextField.backgroundColor = .kobi.withAlphaComponent(0.5)
-        let attributedPlaceHolder = NSAttributedString(string: "Search", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white])
-        controller.searchBar.searchTextField.attributedPlaceholder = attributedPlaceHolder
+        controller.searchBar.searchTextField.attributedPlaceholder = Constants.Content.SimpleCollectionView.Search.placeHolder
         controller.searchResultsUpdater = self
         controller.searchBar.delegate = self
         return controller
@@ -117,10 +116,7 @@ class SimpleCollectionViewController: UIViewController {
         case .Search:
             if UDManager.shared.getValue(for: .firstLaunch, ofType: Bool.self) == nil {
                 self.showInfoAlert(
-                    data: BottomSheet.InfoData(
-                        title: "Welcome buddy!",
-                        content: "Remember that every time you make a search you can delete it by pressing 🗑 in the upper right",
-                        image: nil),
+                    data: Constants.Content.SimpleCollectionView.Alert.firstLauch,
                     delegate: self)
                 UDManager.shared.set(value: true, for: .firstLaunch)
             }
@@ -217,18 +213,18 @@ extension SimpleCollectionViewController: SimpleCollectionDisplayLogic {
     
     func display(favoriteSaved: Bool) {
         if favoriteSaved {
-            showInfoAlert(data: BottomSheet.InfoData(title: "Yay!", content: "Your product has been saved to favorites!", image: nil), delegate: self)
+            showInfoAlert(data: Constants.Content.SimpleCollectionView.Alert.favoriteSaved, delegate: self)
         } else {
-            showInfoAlert(data: BottomSheet.InfoData(title: "Ooops!", content: "Your product can't been saved to favorites!", image: nil), delegate: self)
+            showInfoAlert(data: Constants.Content.SimpleCollectionView.Alert.favoriteNotSaved, delegate: self)
         }
     }
     
     func display(favoriteDeleted: Bool) {
         if favoriteDeleted {
-            showInfoAlert(data: BottomSheet.InfoData(title: "Okay", content: "Your product has been deleted from favorites!", image: nil), delegate: self)
+            showInfoAlert(data: Constants.Content.SimpleCollectionView.Alert.favoriteDeleted, delegate: self)
             self.presenter.fetchFavorites()
         } else {
-            showInfoAlert(data: BottomSheet.InfoData(title: "Ooops!", content: "Your product can't been deleted from favorites!", image: nil), delegate: self)
+            showInfoAlert(data: Constants.Content.SimpleCollectionView.Alert.favoriteNotDeleted, delegate: self)
         }
     }
     
@@ -266,10 +262,7 @@ extension SimpleCollectionViewController: UITableViewDelegate, UITableViewDataSo
                 
                 if product.isFavorite ?? false {
                     self.showInfoAlert(
-                        data: BottomSheet.InfoData(
-                            title: "going fast?",
-                            content: "You have already added this product to your favorites list!",
-                            image: nil),
+                        data: Constants.Content.SimpleCollectionView.Alert.alreadyFavorite,
                         delegate: self)
                     completionHandler(true)
                 } else {

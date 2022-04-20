@@ -38,7 +38,7 @@ class SearchKeyWordsResultViewController: UIViewController {
                         self.results = response.suggestedKeywords
                     case .failure(let error):
                         print(error)
-                        self.results = ["No data, try another word."]
+                        self.results = [Constants.Content.KeywordsView.noData]
                     }
                 }
         }

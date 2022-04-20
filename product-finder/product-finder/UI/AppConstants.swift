@@ -58,6 +58,41 @@ struct Constants {
             static let CTA          = "Show in MercadoLible"
             static let freeShipping = "Envio gratis "
             static let full         = "⚡️FULL"
+            static let favorite     = "💜 - "
+        }
+        
+        struct KeywordsView {
+            static let noData       = "No data, try another word."
+        }
+        
+        struct SimpleCollectionView {
+            struct Search {
+                static let title        = "Product search"
+                static let placeHolder  = NSAttributedString(string: "Search", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white])
+            }
+            
+            struct LastSearch {
+                
+            }
+            
+            struct Favorites {
+                
+            }
+            
+            struct Alert {
+                static let firstLauch = BottomSheet.InfoData(
+                    title: "Welcome buddy!",
+                    content: "Remember that every time you make a search you can delete it by pressing 🗑 in the upper right",
+                    image: nil)
+                static let favoriteSaved = BottomSheet.InfoData(title: "Yay!", content: "Your product has been saved to favorites!", image: nil)
+                static let favoriteNotSaved = BottomSheet.InfoData(title: "Ooops!", content: "Your product can't been saved to favorites!", image: nil)
+                static let favoriteDeleted = BottomSheet.InfoData(title: "Okay", content: "Your product has been deleted from favorites!", image: nil)
+                static let favoriteNotDeleted = BottomSheet.InfoData(title: "Ooops!", content: "Your product can't been deleted from favorites!", image: nil)
+                static let alreadyFavorite = BottomSheet.InfoData(
+                    title: "going fast?",
+                    content: "You have already added this product to your favorites list!",
+                    image: nil)
+            }
         }
     }
 }

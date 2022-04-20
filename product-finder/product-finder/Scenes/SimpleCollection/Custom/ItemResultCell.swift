@@ -104,7 +104,7 @@ class ItemResultCell: UITableViewCell {
         
         
         
-        shippingInfo.text = "\(product.isFavorite ?? false ? "💜 - ":"")\(product.shipping.freeShipping ? "Envio gratis ":"")\(product.shipping.logisticType == "fulfillment" ? "⚡️FULL":"")"
+        shippingInfo.text = "\(product.isFavorite ?? false ? Constants.Content.ProductDetail.favorite : "")\(product.shipping.freeShipping ? Constants.Content.ProductDetail.freeShipping : "")\(product.shipping.logisticType == "fulfillment" ? Constants.Content.ProductDetail.full : "")"
        
         if
             let imageURL = URL(string: product.thumbnail) {
