@@ -41,6 +41,7 @@ class Log {
         formatter.timeZone = TimeZone.current
         return formatter
     }
+    static var enabled = true
     
     fileprivate static func getFileName(filePath: String) -> String {
         let components = filePath.components(separatedBy: "/")
@@ -56,11 +57,7 @@ class Log {
     }
     
     fileprivate static var canLog: Bool {
-        #if DEBUG
-            return true
-        #else
-            return false
-        #endif
+        return enabled
     }
     
     class func toConsole(
