@@ -18,7 +18,7 @@ enum BottomSheetAction {
 }
 
 protocol BottomSeheetDelegate: AnyObject {
-    func didTap(action: BottomSheetAction, bottomSheet: BottomSheet)
+    func didTap(action: BottomSheetAction, bottomSheet: BottomSheet, code: Int)
 }
 
 class BottomSheet: UIView {
@@ -30,6 +30,7 @@ class BottomSheet: UIView {
     var blurEffectView: UIVisualEffectView?
     weak var delegate: BottomSeheetDelegate?
     var isToast: Bool = false
+    var code: Int = 0
     
     let TAG = "BottomSheet".hashValue
     
@@ -68,7 +69,7 @@ class BottomSheet: UIView {
         configuration.baseBackgroundColor = .spaceCadet
         let button = UIButton(configuration: configuration)
         button.addAction(UIAction { _ in
-            self.delegate?.didTap(action: .simpleOk, bottomSheet: self)
+            self.delegate?.didTap(action: .simpleOk, bottomSheet: self, code: self.code)
         }, for: .touchUpInside)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -87,8 +88,9 @@ class BottomSheet: UIView {
         leadingConfiguration.baseForegroundColor = .white
         leadingConfiguration.baseBackgroundColor = .kobi
         let leadingButton = UIButton(configuration: leadingConfiguration)
+        leadingButton.tag = "LEADING".hashValue
         leadingButton.addAction(UIAction { _ in
-            self.delegate?.didTap(action: .leading, bottomSheet: self)
+            self.delegate?.didTap(action: .leading, bottomSheet: self, code: self.code)
         }, for: .touchUpInside)
         leadingButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -98,8 +100,9 @@ class BottomSheet: UIView {
         trailingConfiguration.baseForegroundColor = .white
         trailingConfiguration.baseBackgroundColor = .spaceCadet
         let trailingButton = UIButton(configuration: trailingConfiguration)
+        trailingButton.tag = "TRAILING".hashValue
         trailingButton.addAction(UIAction { _ in
-            self.delegate?.didTap(action: .trailing, bottomSheet: self)
+            self.delegate?.didTap(action: .trailing, bottomSheet: self, code: self.code)
         }, for: .touchUpInside)
         trailingButton.translatesAutoresizingMaskIntoConstraints = false
         
@@ -189,6 +192,24 @@ class BottomSheet: UIView {
             }
             
             addSubview(twinsButtons)
+            
+            if let buttonTitles = data.buttonTitles {
+                twinsButtons.arrangedSubviews.forEach { button in
+                    if let b = button as? UIButton {
+                        switch b.tag {
+                        case "LEADING".hashValue:
+                            b.setTitle(buttonTitles.leading, for: .normal)
+                        case "TRAILING".hashValue:
+                            b.setTitle(buttonTitles.trailing, for: .normal)
+                        default: break
+                        }
+                    }
+                }
+            }
+            
+            if let code = data.code {
+                self.code = code
+            }
         case .toast(let data):
             if let dataContent = data.content {
                 addSubview(title)
@@ -336,6 +357,8 @@ class BottomSheet: UIView {
         let title: String?
         let content: String?
         let image: UIImage?
+        let buttonTitles: (leading: String, trailing: String)?
+        let code: Int?
     }
     
     struct ToastData {

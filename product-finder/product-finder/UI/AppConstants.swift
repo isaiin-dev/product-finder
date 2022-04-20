@@ -84,14 +84,39 @@ struct Constants {
                     title: "Welcome buddy!",
                     content: "Remember that every time you make a search you can delete it by pressing 🗑 in the upper right",
                     image: nil)
-                static let favoriteSaved = BottomSheet.InfoData(title: "Yay!", content: "Your product has been saved to favorites!", image: nil)
+                static let favoriteSaved = BottomSheet.ActionData(
+                    title: "Yay!",
+                    content: "Your product has been saved to favorites!",
+                    image: nil,
+                    buttonTitles: (leading: "Okay", trailing: "Don't show again"),
+                    code: Code.favoriteSaved)
+                static let favoriteSavedToast = BottomSheet.ToastData(content: "Your product has been saved to favorites!")
                 static let favoriteNotSaved = BottomSheet.InfoData(title: "Ooops!", content: "Your product can't been saved to favorites!", image: nil)
-                static let favoriteDeleted = BottomSheet.InfoData(title: "Okay", content: "Your product has been deleted from favorites!", image: nil)
+                static let favoriteDeleted = BottomSheet.ActionData(
+                    title: "Okay",
+                    content: "Your product has been deleted from favorites!",
+                    image: nil,
+                    buttonTitles: (leading: "Okay", trailing: "Don't show again"),
+                    code: Code.favoriteDeleted)
+                static let favoriteDeletedToast = BottomSheet.ToastData(content: "Product deleted")
                 static let favoriteNotDeleted = BottomSheet.InfoData(title: "Ooops!", content: "Your product can't been deleted from favorites!", image: nil)
                 static let alreadyFavorite = BottomSheet.InfoData(
                     title: "going fast?",
                     content: "You have already added this product to your favorites list!",
                     image: nil)
+                static let swipeRight = BottomSheet.InfoData(
+                    title: "Hey!",
+                    content: "Remember that you can save any product in your favorites by swiping to the right",
+                    image: nil)
+                static let swipeLeft = BottomSheet.InfoData(
+                    title: "Hey!",
+                    content: "Remember that you can delete any product from your favorites by swiping to the left",
+                    image: nil)
+                
+                struct Code {
+                    static let favoriteSaved: Int = 1
+                    static let favoriteDeleted: Int = 2
+                }
             }
         }
     }

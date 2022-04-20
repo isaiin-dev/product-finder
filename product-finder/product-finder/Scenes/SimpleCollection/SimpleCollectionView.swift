@@ -113,12 +113,25 @@ class SimpleCollectionViewController: UIViewController {
         switch style {
         case .Favorites:
             self.presenter.fetchFavorites()
+            if UDManager.shared.getValue(for: .swipeLeft, ofType: Bool.self) == nil {
+                self.showInfoAlert(
+                    data: Constants.Content.SimpleCollectionView.Alert.swipeLeft,
+                    delegate: self)
+                UDManager.shared.set(value: true, for: .swipeLeft)
+            }
         case .Search:
             if UDManager.shared.getValue(for: .firstLaunch, ofType: Bool.self) == nil {
                 self.showInfoAlert(
                     data: Constants.Content.SimpleCollectionView.Alert.firstLauch,
                     delegate: self)
                 UDManager.shared.set(value: true, for: .firstLaunch)
+            } else {
+                if UDManager.shared.getValue(for: .swipeRight, ofType: Bool.self) == nil {
+                    self.showInfoAlert(
+                        data: Constants.Content.SimpleCollectionView.Alert.swipeRight,
+                        delegate: self)
+                    UDManager.shared.set(value: true, for: .swipeRight)
+                }
             }
         case .LastResults:
             if let lastSearchItems = UDManager.shared.getObjet(for: .lastSearchItems, ofType: [SimpleCollection.SearchProducts.Product].self) {
@@ -213,7 +226,11 @@ extension SimpleCollectionViewController: SimpleCollectionDisplayLogic {
     
     func display(favoriteSaved: Bool) {
         if favoriteSaved {
-            showInfoAlert(data: Constants.Content.SimpleCollectionView.Alert.favoriteSaved, delegate: self)
+            if let NotShowAgain = UDManager.shared.getValue(for: .favoriteAddedNotShowAgain, ofType: Bool.self), NotShowAgain {
+                showToast(data: Constants.Content.SimpleCollectionView.Alert.favoriteSavedToast)
+            } else {
+                showActionAlert(data: Constants.Content.SimpleCollectionView.Alert.favoriteSaved, delegate: self)
+            }
         } else {
             showInfoAlert(data: Constants.Content.SimpleCollectionView.Alert.favoriteNotSaved, delegate: self)
         }
@@ -221,7 +238,11 @@ extension SimpleCollectionViewController: SimpleCollectionDisplayLogic {
     
     func display(favoriteDeleted: Bool) {
         if favoriteDeleted {
-            showInfoAlert(data: Constants.Content.SimpleCollectionView.Alert.favoriteDeleted, delegate: self)
+            if let NotShowAgain = UDManager.shared.getValue(for: .favoriteDeletedNotShowAgain, ofType: Bool.self), NotShowAgain {
+                showToast(data: Constants.Content.SimpleCollectionView.Alert.favoriteDeletedToast)
+            } else {
+                showActionAlert(data: Constants.Content.SimpleCollectionView.Alert.favoriteDeleted, delegate: self)
+            }
             self.presenter.fetchFavorites()
         } else {
             showInfoAlert(data: Constants.Content.SimpleCollectionView.Alert.favoriteNotDeleted, delegate: self)
@@ -230,6 +251,7 @@ extension SimpleCollectionViewController: SimpleCollectionDisplayLogic {
     
     func display(error: String) {
         Log.toConsole(type: .e, tag: "Error", error)
+        self.showToast(data: BottomSheet.ToastData(content: error))
     }
 }
 
@@ -291,7 +313,7 @@ extension SimpleCollectionViewController: UITableViewDelegate, UITableViewDataSo
     }
 }
 
-// MARK: - SearchBar delegate♥
+// MARK: - SearchBar delegate
 extension SimpleCollectionViewController: UISearchBarDelegate {
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let textToSearch = searchBar.text else { return }
@@ -339,15 +361,29 @@ extension SimpleCollectionViewController: UISearchResultsUpdating {
 // MARK: - BottomSheetDelegate
 
 extension SimpleCollectionViewController: BottomSeheetDelegate {
-    func didTap(action: BottomSheetAction, bottomSheet: BottomSheet) {
-        switch action {
-        case .leading:
-            bottomSheet.hide()
-        case .trailing:
-            bottomSheet.hide()
-        case .simpleOk:
-            bottomSheet.hide()
-        case .toast:
+    func didTap(action: BottomSheetAction, bottomSheet: BottomSheet, code: Int) {
+        switch code {
+        case Constants.Content.SimpleCollectionView.Alert.Code.favoriteSaved:
+            switch action {
+            case .leading:
+                bottomSheet.hide()
+            case .trailing:
+                UDManager.shared.set(value: true, for: .favoriteAddedNotShowAgain)
+                bottomSheet.hide()
+            default:
+                break
+            }
+        case Constants.Content.SimpleCollectionView.Alert.Code.favoriteDeleted:
+            switch action {
+            case .leading:
+                bottomSheet.hide()
+            case .trailing:
+                UDManager.shared.set(value: true, for: .favoriteDeletedNotShowAgain)
+                bottomSheet.hide()
+            default:
+                break
+        }
+        default:
             bottomSheet.hide()
         }
     }
